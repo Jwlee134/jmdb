@@ -21,7 +21,7 @@ interface Paginator {
   total_results: number;
 }
 
-export interface IMovies extends IMovie, Paginator {
+export interface IMovies extends Paginator {
   results: IMovie[];
 }
 
