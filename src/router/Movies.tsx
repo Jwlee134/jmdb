@@ -1,8 +1,10 @@
 import { useQueries } from "@tanstack/react-query";
-import Poster from "../components/common/Poster";
-import ScaleCarousel from "../components/common/ScaleCarousel";
-import ScrollView from "../components/common/ScrollView";
-import Section from "../components/common/Section";
+import { useNavigate } from "react-router-dom";
+import Header from "../components/Header";
+import Poster from "../components/Poster";
+import ScaleCarousel from "../components/ScaleCarousel";
+import ScrollView from "../components/ScrollView";
+import Section from "../components/Section";
 import { discover, movies } from "../libs/api/movies";
 
 export default function Movies() {
@@ -26,10 +28,15 @@ export default function Movies() {
       },
     ],
   });
+  const navigate = useNavigate();
 
   return (
     <>
-      <Section headerTitle="Discover">
+      <Header title="JMDB" />
+      <Section
+        headerTitle="Discover"
+        onViewAllClick={() => navigate("/discover")}
+      >
         <ScaleCarousel data={results[0].data?.results} />
       </Section>
       <Section headerTitle="Now Playing">

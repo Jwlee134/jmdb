@@ -1,10 +1,10 @@
 import useEmblaCarousel from "embla-carousel-react";
 import { useCallback, useEffect, useState } from "react";
 import { flushSync } from "react-dom";
-import { IMovie } from "../../libs/api/types";
-import { GENRES } from "../../libs/constants";
-import { makeImgPath } from "../../libs/utils";
-import ScaleCarouselSkeleton from "../skeletons/ScaleCarouselSkeleton";
+import { IMovie } from "../libs/api/types";
+import { GENRES } from "../libs/constants";
+import { makeImgPath } from "../libs/utils";
+import ScaleCarouselSkeleton from "./ScaleCarouselSkeleton";
 
 const TWEEN_FACTOR = 3;
 

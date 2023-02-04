@@ -1,4 +1,3 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App";
@@ -7,7 +6,7 @@ import MovieDetail from "./router/MovieDetail";
 import Search from "./router/Search";
 import "./styles/index.css";
 import Discover from "./router/Discover";
-import Navigator from "./Navigator";
+import Navigator from "./router/Navigator";
 import Movies from "./router/Movies";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";

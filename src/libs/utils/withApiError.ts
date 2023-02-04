@@ -13,6 +13,7 @@ const withApiError =
       .catch((e) => {
         console.error(e);
         if (axios.isAxiosError(e)) throw new Error(e.message);
+        return null;
       });
 
 export default withApiError;

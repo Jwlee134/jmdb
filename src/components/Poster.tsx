@@ -1,17 +1,24 @@
-import { IMovie } from "../../libs/api/types";
-import { GENRES } from "../../libs/constants";
-import { Placeholder, isMovie, makeImgPath } from "../../libs/utils";
+import { memo } from "react";
+import { IMovie } from "../libs/api/types";
+import { GENRES } from "../libs/constants";
+import useImageLoad from "../libs/hooks/useImageLoad";
+import { isMovie, makeImgPath, Placeholder } from "../libs/utils";
 import Skeleton from "./Skeleton";
 
 interface IProps {
   data: IMovie | Placeholder;
 }
 
-export default function Poster({ data }: IProps) {
+export default memo(function Poster({ data }: IProps) {
+  const loaded = useImageLoad(
+    data && isMovie(data) ? makeImgPath(data.poster_path) : ""
+  );
+  const isReady = isMovie(data) && loaded;
+
   return (
     <div className="flex-[0_0_40%] min-w-0">
       <div className="relative pt-[150%] rounded-2xl overflow-hidden">
-        {isMovie(data) ? (
+        {isReady ? (
           <img
             className="absolute w-full h-full top-0 left-0 right-0 bottom-0 object-cover"
             src={makeImgPath(data.poster_path)}
@@ -25,17 +32,23 @@ export default function Poster({ data }: IProps) {
         )}
       </div>
       <div className="mt-1 whitespace-nowrap text-ellipsis overflow-hidden text-sm">
-        {isMovie(data) ? data.title : <Skeleton />}
+        {isReady ? data.title : <Skeleton />}
       </div>
       <div className="text-xs text-gray-500">
-        {isMovie(data) ? (
-          data.genre_ids.length &&
-          GENRES.find((genre) => genre.id === data.genre_ids.slice(0, 1)[0])
-            ?.name
+        {isReady ? (
+          <>
+            {data.genre_ids.length
+              ? GENRES.find((genre) => genre.id === data.genre_ids[0])?.name
+              : null}
+            <span>
+              {data.genre_ids.length ? " • " : ""}
+              {data.release_date.split("-")[0]}
+            </span>
+          </>
         ) : (
           <Skeleton width="40%" height={10} />
         )}
       </div>
     </div>
   );
-}
+});

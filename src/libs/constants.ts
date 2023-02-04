@@ -76,3 +76,49 @@ export const GENRES = [
     name: "Western",
   },
 ];
+
+export const SORT_BY = [
+  ["popularity.asc", "Popularity Ascending"],
+  ["popularity.desc", "Popularity Descending"],
+  ["release_date.asc", "Release Date Ascending"],
+  ["release_date.desc", "Release Date Descending"],
+  ["original_title.asc", "Title (A-Z)"],
+  ["original_title.desc", "Title (Z-A)"],
+  ["vote_average.asc", "Rating Ascending"],
+  ["vote_average.desc", "Rating Descending"],
+  ["vote_count.asc", "Vote Count Ascending"],
+  ["vote_count.desc", "Vote Count Descending"],
+];
+
+export const PROVIDERS = [
+  {
+    logo_path: "/9A1JSVmSxsyaBK4SUFsYVqbAYfW.jpg",
+    provider_name: "Netflix",
+    provider_id: 8,
+  },
+  {
+    logo_path: "/68MNrwlkpF7WnmNPXLah69CR5cb.jpg",
+    provider_name: "Amazon Prime Video",
+    provider_id: 119,
+  },
+  {
+    logo_path: "/dgPueyEdOwpQ10fjuhL2WYFQwQs.jpg",
+    provider_name: "Disney Plus",
+    provider_id: 337,
+  },
+  {
+    logo_path: "/8N0DNa4BO3lH24KWv1EjJh4TxoD.jpg",
+    provider_name: "wavve",
+    provider_id: 356,
+  },
+  {
+    logo_path: "/cNi4Nv5EPsnvf5WmgwhfWDsdMUd.jpg",
+    provider_name: "Watcha",
+    provider_id: 97,
+  },
+  {
+    logo_path: "/A3WLxoSkmuxwaQkpfwL6H8WwWwM.jpg",
+    provider_name: "Apple TV Plus",
+    provider_id: 350,
+  },
+];
