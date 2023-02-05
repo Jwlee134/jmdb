@@ -1,18 +1,28 @@
-interface IMovie {
+interface IMovieTV {
   poster_path?: string;
-  adult: boolean;
-  overview: string;
-  release_date: string;
-  genre_ids: number[];
-  id: number;
-  original_title: string;
-  original_language: string;
-  title: string;
-  backdrop_path?: string;
   popularity: number;
-  vote_count: number;
-  video: boolean;
+  id: number;
+  backdrop_path?: string;
   vote_average: number;
+  overview: string;
+  genre_ids: number[];
+  original_language: string;
+  vote_count: number;
+}
+
+interface IMovie extends IMovieTV {
+  adult: boolean;
+  release_date: string;
+  original_title: string;
+  title: string;
+  video: boolean;
+}
+
+interface ITV extends IMovieTV {
+  first_air_date: string;
+  origin_country: string[];
+  name: string;
+  originam_name: string;
 }
 
 interface Paginator {
@@ -25,11 +35,82 @@ export interface IMovies extends Paginator {
   results: IMovie[];
 }
 
-export interface IMovieDetail extends IMovie {
-  genres: { id: number; name: string }[];
-  production_countries: { /** US */ iso_3166_1: string; name: string }[];
-  runtime?: number;
+export interface ITVs extends Paginator {
+  results: ITV[];
+}
+
+interface Genre {
+  id: number;
+  name: string;
+}
+
+interface ProductionCountries {
+  /** US */ iso_3166_1: string;
+  name: string;
+}
+
+interface ProductionCompanies {
+  id: number;
+  name: string;
+  logo_path?: string;
+  origin_country: string;
+}
+
+interface IMovieTVDetail {
+  genres: Genre[];
+  production_countries: ProductionCountries[];
   tagline?: string;
+}
+
+export interface IMovieDetail
+  extends Omit<IMovie, "genre_ids">,
+    IMovieTVDetail {
+  runtime?: number;
+}
+
+export interface ITVDetail extends Omit<ITV, "genre_ids">, IMovieTVDetail {
+  created_by: {
+    id: number;
+    credit_id: string;
+    name: string;
+    gender: number;
+    profile_path?: string;
+  }[];
+  homepage: string;
+  in_production: boolean;
+  languages: string[];
+  last_air_date: string;
+  last_episode_to_air: {
+    air_date: string;
+    episode_number: number;
+    id: number;
+    name: string;
+    overview: string;
+    production_code: string;
+    season_number: number;
+    still_path?: string;
+    vote_average: number;
+    vote_count: number;
+  };
+  networks: ProductionCompanies[];
+  number_of_episodes: number;
+  number_of_seasons: number;
+  production_companies: ProductionCompanies[];
+  seasons: {
+    air_date: string;
+    episode_count: number;
+    id: number;
+    name: string;
+    overview: string;
+    poster_path: string;
+    season_number: number;
+  }[];
+  spoken_languages: {
+    english_name: string;
+    iso_639_1: string;
+    name: string;
+  }[];
+  status: string;
 }
 
 interface ICastCrewCommon {
@@ -103,7 +184,13 @@ export interface IVideos {
 }
 
 export interface IPerson {
-  birthday: string;
+  id: number;
+  name: string;
+  profile_path?: string;
+}
+
+export interface IPersonDetail {
+  birthday?: string;
   known_for_department: string;
   deathday?: string;
   id: number;
@@ -111,8 +198,8 @@ export interface IPerson {
   gender: number;
   biography: string;
   popularity: number;
-  place_of_birth: string;
-  profile_path: string;
+  place_of_birth?: string;
+  profile_path?: string;
   adult: boolean;
   imdb_id: string;
   homepage?: string;
@@ -133,4 +220,8 @@ export interface IPersonMovieCredits {
   id: number;
   cast: ICastCredits[];
   crew: ICrewCredits[];
+}
+
+export interface IPeople extends Paginator {
+  results: IPerson[];
 }

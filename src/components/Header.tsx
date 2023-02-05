@@ -20,7 +20,7 @@ export default function Header({
   const navigate = useNavigate();
 
   return (
-    <header className="bg-black h-20 fixed top-0 w-full z-10 px-6 flex items-center">
+    <header className="bg-black h-20 fixed top-0 w-full z-[999] px-6 flex items-center">
       <div className="w-[25%] flex items-center">
         {showBackBtn ? (
           <HeaderBtn onClick={() => navigate(-1)}>

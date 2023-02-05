@@ -37,7 +37,7 @@ export default function Discover() {
   return (
     <>
       <Header title="Discover" showBackBtn rightBtns={[<FilterBtn />]} />
-      <div className="p-6 space-y-4">
+      <div className="p-6 space-y-4 pt-20">
         {(
           data?.pages?.map((page) => page.results).flat() || placeholders(10)
         ).map((movie) => (

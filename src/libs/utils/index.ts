@@ -1,5 +1,3 @@
-import { IMovie } from "../api/types";
-
 export function cls(...args: string[]) {
   return args.join(" ");
 }
@@ -7,19 +5,7 @@ export function cls(...args: string[]) {
 export function makeImgPath(url?: string, resolution?: number) {
   return url
     ? `https://image.tmdb.org/t/p/w${resolution || 500}${url}`
-    : "https://picsum.photos/id/433/200/300";
-}
-
-export interface Placeholder {
-  id: number;
-}
-
-export function placeholders(l = 3): Placeholder[] {
-  return Array.from({ length: l }, (_, i) => ({ id: i }));
-}
-
-export function isMovie(data: IMovie | Placeholder): data is IMovie {
-  return (data as IMovie).adult !== undefined;
+    : "https://picsum.photos/id/237/200/300";
 }
 
 /* "backdrop_sizes": [
@@ -52,3 +38,16 @@ export function isMovie(data: IMovie | Placeholder): data is IMovie {
   "h632",
   "original"
 ], */
+
+export interface Placeholder {
+  id: number;
+  bullShit: number;
+}
+
+export function placeholders(l = 3): Placeholder[] {
+  return Array.from({ length: l }, (_, i) => ({ id: i, bullShit: i }));
+}
+
+export function isPlaceholder<T>(data: T | Placeholder): data is Placeholder {
+  return (data as Placeholder).bullShit !== undefined;
+}

@@ -13,7 +13,7 @@ export default function App() {
   }, [setCountryInfo]);
 
   return (
-    <main className="max-w-7xl min-h-screen mx-auto bg-black text-gray-200 relative pt-20">
+    <main className="max-w-7xl min-h-screen mx-auto bg-black text-gray-200 relative">
       <Outlet />
       <div id="modal" />
     </main>

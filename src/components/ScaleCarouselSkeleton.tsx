@@ -6,7 +6,7 @@ export default function ScaleCarouselSkeleton() {
     <div className="flex overflow-hidden justify-center">
       {placeholders().map((placeholder, i) => (
         <div
-          key={placeholder.id}
+          key={placeholder.bullShit}
           className={cls("flex-[0_0_60%]", i !== 1 ? "scale-[0.8]" : "")}
         >
           <div className="relative pt-[150%] rounded-3xl overflow-hidden">

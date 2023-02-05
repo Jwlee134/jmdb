@@ -2,7 +2,7 @@ import { memo } from "react";
 import { IMovie } from "../libs/api/types";
 import { GENRES } from "../libs/constants";
 import useImageLoad from "../libs/hooks/useImageLoad";
-import { isMovie, makeImgPath, Placeholder } from "../libs/utils";
+import { isPlaceholder, makeImgPath, Placeholder } from "../libs/utils";
 import Skeleton from "./Skeleton";
 
 interface IProps {
@@ -11,9 +11,9 @@ interface IProps {
 
 export default memo(function Poster({ data }: IProps) {
   const loaded = useImageLoad(
-    data && isMovie(data) ? makeImgPath(data.poster_path) : ""
+    !isPlaceholder(data) ? makeImgPath(data.poster_path) : ""
   );
-  const isReady = isMovie(data) && loaded;
+  const isReady = !isPlaceholder(data) && loaded;
 
   return (
     <div className="flex-[0_0_40%] min-w-0">

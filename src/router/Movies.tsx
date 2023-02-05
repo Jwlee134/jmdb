@@ -33,30 +33,32 @@ export default function Movies() {
   return (
     <>
       <Header title="JMDB" />
-      <Section
-        headerTitle="Discover"
-        onViewAllClick={() => navigate("/discover")}
-      >
-        <ScaleCarousel data={results[0].data?.results} />
-      </Section>
-      <Section headerTitle="Now Playing">
-        <ScrollView
-          data={results[1].data?.results}
-          renderItem={(data) => <Poster key={data.id} data={data} />}
-        />
-      </Section>
-      <Section headerTitle="Upcoming">
-        <ScrollView
-          data={results[2].data?.results}
-          renderItem={(data) => <Poster key={data.id} data={data} />}
-        />
-      </Section>
-      <Section headerTitle="Top Rated">
-        <ScrollView
-          data={results[3].data?.results}
-          renderItem={(data) => <Poster key={data.id} data={data} />}
-        />
-      </Section>
+      <div className="pt-20">
+        <Section
+          headerTitle="Discover"
+          onViewAllClick={() => navigate("/discover")}
+        >
+          <ScaleCarousel data={results[0].data?.results} />
+        </Section>
+        <Section headerTitle="Now Playing">
+          <ScrollView
+            data={results[1].data?.results}
+            renderItem={(data) => <Poster key={data.id} data={data} />}
+          />
+        </Section>
+        <Section headerTitle="Upcoming">
+          <ScrollView
+            data={results[2].data?.results}
+            renderItem={(data) => <Poster key={data.id} data={data} />}
+          />
+        </Section>
+        <Section headerTitle="Top Rated">
+          <ScrollView
+            data={results[3].data?.results}
+            renderItem={(data) => <Poster key={data.id} data={data} />}
+          />
+        </Section>
+      </div>
     </>
   );
 }

@@ -1,19 +1,21 @@
 import { IMovie } from "../libs/api/types";
 import { GENRES } from "../libs/constants";
 import useImageLoad from "../libs/hooks/useImageLoad";
-import { isMovie, makeImgPath, Placeholder } from "../libs/utils";
+import { isPlaceholder, makeImgPath, Placeholder } from "../libs/utils";
 import Skeleton from "./Skeleton";
 import { AiOutlineComment } from "react-icons/ai";
+import { memo } from "react";
 
 interface IProps {
   data: IMovie | Placeholder;
 }
 
-export default function HorizontalPoster({ data }: IProps) {
+export default memo(function HorizontalPoster({ data }: IProps) {
   const loaded = useImageLoad(
-    data && isMovie(data) ? makeImgPath(data.poster_path) : ""
+    data && !isPlaceholder(data) ? makeImgPath(data.poster_path) : ""
   );
-  const isReady = isMovie(data) && loaded;
+  const isReady = !isPlaceholder(data) && loaded;
+  if (isReady) console.log(data.title);
 
   return (
     <div className="flex">
@@ -51,10 +53,10 @@ export default function HorizontalPoster({ data }: IProps) {
           <Skeleton />
         )}
         {isReady ? (
-          <div className="flex flex-wrap text-xs text-gray-400 mt-2 space-x-2">
+          <div className="flex flex-wrap text-xs text-gray-400 mt-2 gap-2">
             {data.release_date ? (
               <div className="bg-gray-800 rounded-full p-2">
-                {data.release_date.split("-").slice(0, 2).join("-")}
+                {data.release_date}
               </div>
             ) : null}
             <div className="bg-gray-800 rounded-full p-2">
@@ -71,4 +73,4 @@ export default function HorizontalPoster({ data }: IProps) {
       </div>
     </div>
   );
-}
+});

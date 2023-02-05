@@ -1,14 +1,6 @@
 import { QueryFunctionContext } from "@tanstack/react-query";
 import instance from ".";
-import {
-  ICredits,
-  IMovieDetail,
-  IMovies,
-  IPerson,
-  IPersonMovieCredits,
-  IReviews,
-  IVideos,
-} from "./types";
+import { ICredits, IMovieDetail, IMovies, IReviews, IVideos } from "./types";
 
 /**
  * queryKey: ["movies", id]
@@ -74,33 +66,11 @@ export const discover = {
 };
 
 /**
- * queryKey: ["trending", "movie" | "person"]
- */
-export const trending = {
-  getTrending: async ({ queryKey }: QueryFunctionContext) =>
-    instance
-      .get<IMovies>(`/trending/${queryKey[1]}/day`)
-      .then((res) => res.data),
-};
-
-/**
  * queryKey: ["search", "movies", query]
  */
 export const search = {
-  getMovies: async ({ queryKey }: QueryFunctionContext) =>
+  getMovies: async ({ queryKey, pageParam = 1 }: QueryFunctionContext) =>
     instance
-      .get<IMovies>(`/search/movie?query=${queryKey[1]}`)
-      .then((res) => res.data),
-};
-
-/**
- * queryKey: ["person", id]
- */
-export const person = {
-  getDetail: async ({ queryKey }: QueryFunctionContext) =>
-    instance.get<IPerson>(`/person/${queryKey[1]}`).then((res) => res.data),
-  getMovieCredits: async ({ queryKey }: QueryFunctionContext) =>
-    instance
-      .get<IPersonMovieCredits>(`/person/${queryKey[1]}/movie_credits`)
+      .get<IMovies>(`/search/movie?query=${queryKey[2]}&page=${pageParam}`)
       .then((res) => res.data),
 };
