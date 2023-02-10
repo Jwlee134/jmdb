@@ -10,6 +10,7 @@ import Navigator from "./router/Navigator";
 import Movies from "./router/Movies";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import Reviews from "./router/Reviews";
 
 const queryClient = new QueryClient();
 
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
       {
         path: "discover",
         element: <Discover />,
+      },
+      {
+        path: "movie/:id/reviews",
+        element: <Reviews />,
       },
     ],
   },

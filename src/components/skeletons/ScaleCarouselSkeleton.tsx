@@ -1,4 +1,4 @@
-import { cls, placeholders } from "../libs/utils";
+import { cls, placeholders } from "../../libs/utils";
 import Skeleton from "./Skeleton";
 
 export default function ScaleCarouselSkeleton() {

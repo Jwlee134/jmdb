@@ -32,7 +32,7 @@ export default function Movies() {
 
   return (
     <>
-      <Header title="JMDB" />
+      <Header title="JMDB" showBackBtn={false} />
       <div className="pt-20">
         <Section
           headerTitle="Discover"

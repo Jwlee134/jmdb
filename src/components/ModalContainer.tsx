@@ -33,7 +33,7 @@ export default function ModalContainer({ title, children }: IProps) {
   return (
     <AnimatePresence>
       {isVisible ? (
-        <div className="grid place-items-center fixed top-0 z-20 w-full h-full">
+        <div className="grid place-items-center fixed top-0 z-[999] w-full h-full">
           <motion.div
             variants={bg}
             initial="initial"
@@ -49,7 +49,7 @@ export default function ModalContainer({ title, children }: IProps) {
             animate="animate"
             exit="initial"
             transition={{ duration: 0.2 }}
-            className="w-3/4 h-[60vh] bg-black rounded-xl z-30 flex flex-col justify-between overflow-hidden"
+            className="w-3/4 h-[60vh] bg-black rounded-xl z-[999] flex flex-col justify-between overflow-hidden"
           >
             <div className="h-12 flex justify-end shrink-0 relative">
               {title ? (

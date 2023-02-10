@@ -11,7 +11,7 @@ import useDebounce from "../libs/hooks/useDebounce";
 import { FiSearch } from "react-icons/fi";
 import { search as api } from "../libs/api/movies";
 import { useEffect } from "react";
-import SearchList from "../components/SearchList";
+import SearchResults from "../components/SearchResults";
 
 interface IForm {
   query: string;
@@ -86,12 +86,14 @@ export default function Search() {
           <Section headerTitle="Trending People">
             <ScrollView
               data={people?.results}
-              renderItem={(data) => <Profile key={data.id} data={data} />}
+              renderItem={(data) => (
+                <Profile key={data.id} data={data} showCharacter={false} />
+              )}
             />
           </Section>
         </>
       ) : (
-        <SearchList data={data} fetchNextPage={fetchNextPage} />
+        <SearchResults data={data} fetchNextPage={fetchNextPage} />
       )}
     </>
   );

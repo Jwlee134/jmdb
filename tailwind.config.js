@@ -9,5 +9,5 @@ module.exports = {
       fontFamily: { sans: ["Ubuntu", ...defaultTheme.fontFamily.sans] },
     },
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/line-clamp")],
 };

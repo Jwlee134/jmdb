@@ -11,7 +11,7 @@ export const GENRES = [
   { id: 53, name: "Thriller" },
   { id: 80, name: "Crime" },
   { id: 99, name: "Documentary" },
-  { id: 878, name: "SF" },
+  { id: 878, name: "Science Fiction" },
   { id: 9648, name: "Mystery" },
   { id: 10402, name: "Music" },
   { id: 10749, name: "Romance" },

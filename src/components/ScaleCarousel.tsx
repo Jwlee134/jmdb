@@ -1,10 +1,11 @@
 import useEmblaCarousel from "embla-carousel-react";
 import { useCallback, useEffect, useState } from "react";
 import { flushSync } from "react-dom";
+import { Link } from "react-router-dom";
 import { IMovie } from "../libs/api/types";
 import { GENRES } from "../libs/constants";
 import { makeImgPath } from "../libs/utils";
-import ScaleCarouselSkeleton from "./ScaleCarouselSkeleton";
+import ScaleCarouselSkeleton from "./skeletons/ScaleCarouselSkeleton";
 
 const TWEEN_FACTOR = 3;
 
@@ -59,7 +60,11 @@ export default function ScaleCarousel({ data }: IProps) {
     <div className="overflow-hidden" ref={emblaRef}>
       <div className="flex">
         {data.map((movie, i) => (
-          <div key={movie.id} className="flex-[0_0_60%] min-w-0 relative">
+          <Link
+            key={movie.id}
+            to={`/movie/${movie.id}`}
+            className="flex-[0_0_60%] min-w-0 relative"
+          >
             <div
               className="relative pt-[150%] rounded-3xl overflow-hidden"
               style={{
@@ -106,7 +111,7 @@ export default function ScaleCarousel({ data }: IProps) {
                 </>
               ) : null}
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>

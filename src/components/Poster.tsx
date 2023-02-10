@@ -1,22 +1,28 @@
-import { memo } from "react";
+import { Link } from "react-router-dom";
 import { IMovie } from "../libs/api/types";
 import { GENRES } from "../libs/constants";
 import useImageLoad from "../libs/hooks/useImageLoad";
 import { isPlaceholder, makeImgPath, Placeholder } from "../libs/utils";
-import Skeleton from "./Skeleton";
+import Skeleton from "./skeletons/Skeleton";
 
 interface IProps {
   data: IMovie | Placeholder;
 }
 
-export default memo(function Poster({ data }: IProps) {
+export default function Poster({ data }: IProps) {
   const loaded = useImageLoad(
     !isPlaceholder(data) ? makeImgPath(data.poster_path) : ""
   );
   const isReady = !isPlaceholder(data) && loaded;
 
   return (
-    <div className="flex-[0_0_40%] min-w-0">
+    <Link
+      to={`/movie/${data.id}`}
+      className="flex-[0_0_40%] min-w-0"
+      onClick={(e) => {
+        if (!isReady) e.preventDefault();
+      }}
+    >
       <div className="relative pt-[150%] rounded-2xl overflow-hidden">
         {isReady ? (
           <img
@@ -49,6 +55,6 @@ export default memo(function Poster({ data }: IProps) {
           <Skeleton width="40%" height={10} />
         )}
       </div>
-    </div>
+    </Link>
   );
-});
+}

@@ -143,44 +143,44 @@ export interface ICredits {
   crew: ICrew[];
 }
 
-export interface IReviews extends Paginator {
-  id: number;
-  results: {
-    author: string;
-    author_details: {
-      name: string;
-      username: string;
-      avatar_path?: string;
-      rating?: number;
-    };
+interface IReview {
+  author: string;
+  author_details: {
     name: string;
     username: string;
     avatar_path?: string;
     rating?: number;
-    content: string;
-    created_at: string;
-    id: string;
-    updated_at: string;
-    url: string;
   };
+  content: string;
+  created_at: string;
+  id: string;
+  updated_at: string;
+  url: string;
+}
+
+export interface IReviews extends Paginator {
+  id: number;
+  results: IReview[];
+}
+
+interface IVideo {
+  /** en */
+  iso_639_1: string;
+  /** US */
+  iso_3166_1: string;
+  name: string;
+  key: string;
+  site: string;
+  size: number;
+  type: string;
+  official: boolean;
+  published_at: string;
+  id: string;
 }
 
 export interface IVideos {
   id: number;
-  results: {
-    /** en */
-    iso_639_1: string;
-    /** US */
-    iso_3166_1: string;
-    name: string;
-    key: string;
-    site: string;
-    size: number;
-    type: string;
-    official: boolean;
-    published_at: string;
-    id: string;
-  };
+  results: IVideo[];
 }
 
 export interface IPerson {

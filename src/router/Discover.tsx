@@ -5,25 +5,21 @@ import { discover } from "../libs/api/movies";
 import useIntersectionObserver from "../libs/hooks/useIntersectionObserver";
 import { placeholders } from "../libs/utils";
 import { BsFilter } from "react-icons/bs";
-import HeaderBtn from "../components/HeaderBtn";
 import useBoundStore from "../store";
 import Portal from "../components/Portal";
 import FilterModal from "../components/FilterModal";
 import HorizontalPoster from "../components/HorizontalPoster";
-
-function FilterBtn() {
-  const openModal = useBoundStore((state) => state.openModal);
-
-  return (
-    <HeaderBtn onClick={openModal}>
-      <BsFilter />
-    </HeaderBtn>
-  );
-}
+import { shallow } from "zustand/shallow";
 
 export default function Discover() {
   const { search } = useLocation();
-  const setTotalResults = useBoundStore((state) => state.setTotalResults);
+  const { setTotalResults, openModal } = useBoundStore(
+    (state) => ({
+      setTotalResults: state.setTotalResults,
+      openModal: state.openModal,
+    }),
+    shallow
+  );
   const { data, fetchNextPage } = useInfiniteQuery({
     queryKey: ["discover", "movies", search.replace("?", "")],
     queryFn: discover.getDiscoveredMovies,
@@ -36,7 +32,12 @@ export default function Discover() {
 
   return (
     <>
-      <Header title="Discover" showBackBtn rightBtns={[<FilterBtn />]} />
+      <Header
+        title="Discover"
+        showBackBtn
+        rightIcons={[<BsFilter />]}
+        rightIconsOnClick={[openModal]}
+      />
       <div className="p-6 space-y-4 pt-20">
         {(
           data?.pages?.map((page) => page.results).flat() || placeholders(10)
