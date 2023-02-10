@@ -15,7 +15,7 @@ interface IProps {
   ) => Promise<InfiniteQueryObserverResult<IMovies, unknown>>;
 }
 
-export default function SearchList({ data, fetchNextPage }: IProps) {
+export default function SearchResults({ data, fetchNextPage }: IProps) {
   const ref = useIntersectionObserver(fetchNextPage);
 
   return (

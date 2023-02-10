@@ -1,4 +1,4 @@
-import { useQueries } from "@tanstack/react-query";
+import { useInfiniteQuery, useQueries } from "@tanstack/react-query";
 import { Link, useParams } from "react-router-dom";
 import Header from "../components/Header";
 import Poster from "../components/Poster";
@@ -21,7 +21,6 @@ export default function MovieDetail() {
     { data: credits },
     { data: similars },
     { data: videos },
-    { data: reviews },
   ] = useQueries({
     queries: [
       {
@@ -40,11 +39,11 @@ export default function MovieDetail() {
         queryFn: movie.getVideos,
         queryKey: ["movies", id, "videos"],
       },
-      {
-        queryFn: movie.getReviews,
-        queryKey: ["movies", id, "reviews"],
-      },
     ],
+  });
+  const { data: reviews } = useInfiniteQuery({
+    queryFn: movie.getReviews,
+    queryKey: ["movies", id, "reviews"],
   });
   const loaded = useImageLoad(
     details
@@ -159,22 +158,25 @@ export default function MovieDetail() {
       </Section>
       <Section headerTitle="Reviews">
         <div className="space-y-6">
-          {(reviews?.results.slice(0, 2) || placeholders(2)).map((data) => (
-            <Review key={data.id} data={data} />
-          ))}
+          {(reviews?.pages[0].results.slice(0, 2) || placeholders(2)).map(
+            (data) => (
+              <Review key={data.id} data={data} />
+            )
+          )}
         </div>
-        {reviews && !reviews.results.length ? (
+        {reviews && !reviews.pages[0].results.length ? (
           <p className="px-6 text-sm text-gray-400 font-light">
             No Reviews written.
           </p>
         ) : null}
-        {reviews && reviews.total_results > 2 ? (
+        {reviews && reviews.pages[0].total_results > 2 ? (
           <div className="px-6 mt-6">
             <Link
               to={`/movie/${details?.id}/reviews`}
               className="block bg-gray-800 w-full rounded-lg py-3 text-center"
+              state={{ total: reviews.pages[0].total_results }}
             >
-              See {reviews.total_results} reviews
+              See {reviews.pages[0].total_results} reviews
             </Link>
           </div>
         ) : null}

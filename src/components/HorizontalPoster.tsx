@@ -2,7 +2,6 @@ import { IMovie } from "../libs/api/types";
 import { GENRES } from "../libs/constants";
 import useImageLoad from "../libs/hooks/useImageLoad";
 import { isPlaceholder, makeImgPath, Placeholder } from "../libs/utils";
-import { AiOutlineComment } from "react-icons/ai";
 import { memo } from "react";
 import { Link } from "react-router-dom";
 import Skeleton from "./skeletons/Skeleton";
@@ -68,9 +67,6 @@ export default memo(function HorizontalPoster({ data }: IProps) {
             <div className="bg-gray-800 rounded-full p-2">
               <span className="text-yellow-300 mr-1">★</span>
               {data.vote_average}
-            </div>
-            <div className="bg-gray-800 rounded-full p-2 flex items-center">
-              <AiOutlineComment className="mr-1" /> {data.vote_count}
             </div>
           </div>
         ) : (

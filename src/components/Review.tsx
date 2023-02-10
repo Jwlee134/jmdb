@@ -1,6 +1,7 @@
 import { IReview } from "../libs/api/types";
 import useImageLoad from "../libs/hooks/useImageLoad";
 import {
+  cls,
   formatCreatedAt,
   isPlaceholder,
   makeImgPath,
@@ -8,7 +9,8 @@ import {
 } from "../libs/utils";
 import Skeleton from "./skeletons/Skeleton";
 import ReactMarkdown from "react-markdown";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import rehypeRaw from "rehype-raw";
 
 interface IProps {
   data: Placeholder | IReview;
@@ -19,12 +21,14 @@ export default function Review({ data }: IProps) {
     !isPlaceholder(data) ? makeImgPath(data.author_details.avatar_path, 45) : ""
   );
   const ref = useRef<HTMLDivElement>(null);
+  const [showBtn, setShowBtn] = useState(false);
+  const [showMore, setShowMore] = useState(false);
 
   const isReady = !isPlaceholder(data) && loaded;
 
   useEffect(() => {
     if (!ref.current) return;
-    console.log(ref.current.scrollHeight, ref.current.clientHeight);
+    if (ref.current.scrollHeight > 64) setShowBtn(true);
   }, [isReady]);
 
   return (
@@ -55,14 +59,28 @@ export default function Review({ data }: IProps) {
         ) : null}
       </div>
       {isReady ? (
-        <div
-          ref={ref}
-          className="font-light text-gray-400 text-sm line-clamp-3"
-        >
-          <ReactMarkdown>{data.content}</ReactMarkdown>
+        <div className="flex flex-col">
+          <div className={cls("overflow-hidden", showMore ? "h-auto" : "h-16")}>
+            <div ref={ref}>
+              <ReactMarkdown
+                rehypePlugins={[rehypeRaw]}
+                className="font-light text-gray-400 text-sm"
+              >
+                {data.content}
+              </ReactMarkdown>
+            </div>
+          </div>
+          {showBtn ? (
+            <button
+              onClick={() => setShowMore((prev) => !prev)}
+              className="text-xs text-gray-500 w-fit self-center mt-2"
+            >
+              {showMore ? "Read less" : "Read more"}
+            </button>
+          ) : null}
         </div>
       ) : (
-        <Skeleton count={2} />
+        <Skeleton count={3} />
       )}
     </div>
   );

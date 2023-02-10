@@ -37,7 +37,10 @@ export default function Search() {
     queryKey: ["search", "movies", value],
     queryFn: api.getMovies,
     enabled: !!value,
-    getNextPageParam: (lastPage) => lastPage.page + 1,
+    getNextPageParam: (lastPage) =>
+      lastPage.page + 1 === lastPage.total_pages
+        ? undefined
+        : lastPage.page + 1,
   });
 
   useEffect(() => {
