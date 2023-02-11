@@ -1,7 +1,7 @@
 import { IVideo } from "../libs/api/types";
 import useImageLoad from "../libs/hooks/useImageLoad";
 import { isPlaceholder, Placeholder } from "../libs/utils";
-import Skeleton from "./skeletons/Skeleton";
+import Skeleton from "./Skeleton";
 
 interface IProps {
   data: IVideo | Placeholder;

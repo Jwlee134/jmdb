@@ -5,7 +5,7 @@ import Poster from "../components/Poster";
 import Profile from "../components/Profile";
 import ScrollView from "../components/ScrollView";
 import Section from "../components/Section";
-import Skeleton from "../components/skeletons/Skeleton";
+import Skeleton from "../components/Skeleton";
 import Video from "../components/Video";
 import { movie } from "../libs/api/movies";
 import useImageLoad from "../libs/hooks/useImageLoad";
@@ -139,8 +139,10 @@ export default function MovieDetail() {
           data={credits?.cast}
           renderItem={(data) => (
             <Profile
-              key={"credit_id" in data ? data.credit_id : data.id}
-              data={data}
+              key={
+                "credit_id" in data.item ? data.item.credit_id : data.item.id
+              }
+              {...data}
             />
           )}
         />
@@ -148,7 +150,7 @@ export default function MovieDetail() {
       <Section headerTitle="Videos">
         <ScrollView
           data={videos?.results}
-          renderItem={(data) => <Video key={data.id} data={data} />}
+          renderItem={({ item }) => <Video key={item.id} data={item} />}
         />
         {videos && !videos.results.length ? (
           <p className="px-6 text-sm text-gray-400 font-light">
@@ -166,7 +168,7 @@ export default function MovieDetail() {
         </div>
         {reviews && !reviews.pages[0].results.length ? (
           <p className="px-6 text-sm text-gray-400 font-light">
-            No Reviews written.
+            No Reviews exist.
           </p>
         ) : null}
         {reviews && reviews.pages[0].total_results > 2 ? (
@@ -184,7 +186,8 @@ export default function MovieDetail() {
       <Section headerTitle="Similar Movies">
         <ScrollView
           data={similars?.results}
-          renderItem={(data) => <Poster key={data.id} data={data} />}
+          renderItem={(data) => <Poster key={data.item.id} {...data} />}
+          cacheKey="similarMovies"
         />
       </Section>
     </>

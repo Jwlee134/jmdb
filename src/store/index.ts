@@ -1,15 +1,27 @@
-import { create } from "zustand";
+import { create, StateCreator } from "zustand";
 import createModalSlice, { IModalSlice } from "./modalSlice";
 import { devtools } from "zustand/middleware";
-import createUserAgentSlice, { UserAgentSlice } from "./userAgentSlice";
+import { immer } from "zustand/middleware/immer";
+import createUserAgentSlice, { IUserAgentSlice } from "./userAgentSlice";
+import createCacheSlice, { ICacheSlice } from "./indexSlice";
 
-export type Store = IModalSlice & UserAgentSlice;
+export type Store = IModalSlice & IUserAgentSlice & ICacheSlice;
+
+export type Slice<T> = StateCreator<
+  Store,
+  [["zustand/immer", never], ["zustand/devtools", never]],
+  [],
+  T
+>;
 
 const useBoundStore = create<Store>()(
-  devtools((...a) => ({
-    ...createModalSlice(...a),
-    ...createUserAgentSlice(...a),
-  }))
+  immer(
+    devtools((...a) => ({
+      ...createModalSlice(...a),
+      ...createUserAgentSlice(...a),
+      ...createCacheSlice(...a),
+    }))
+  )
 );
 
 export default useBoundStore;

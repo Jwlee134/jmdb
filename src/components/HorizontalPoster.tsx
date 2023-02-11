@@ -4,7 +4,7 @@ import useImageLoad from "../libs/hooks/useImageLoad";
 import { isPlaceholder, makeImgPath, Placeholder } from "../libs/utils";
 import { memo } from "react";
 import { Link } from "react-router-dom";
-import Skeleton from "./skeletons/Skeleton";
+import Skeleton from "./Skeleton";
 
 interface IProps {
   data: IMovie | Placeholder;

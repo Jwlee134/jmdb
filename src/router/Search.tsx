@@ -68,7 +68,8 @@ export default function Search() {
           <Section headerTitle="Trending Movies">
             <ScrollView
               data={movies?.results}
-              renderItem={(data) => <Poster key={data.id} data={data} />}
+              renderItem={(data) => <Poster key={data.item.id} {...data} />}
+              cacheKey="trendingMovies"
             />
           </Section>
           <Section headerTitle="Genres">
@@ -90,7 +91,7 @@ export default function Search() {
             <ScrollView
               data={people?.results}
               renderItem={(data) => (
-                <Profile key={data.id} data={data} showCharacter={false} />
+                <Profile key={data.item.id} {...data} showCharacter={false} />
               )}
             />
           </Section>

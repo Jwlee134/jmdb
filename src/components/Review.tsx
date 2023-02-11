@@ -7,7 +7,7 @@ import {
   makeImgPath,
   Placeholder,
 } from "../libs/utils";
-import Skeleton from "./skeletons/Skeleton";
+import Skeleton from "./Skeleton";
 import ReactMarkdown from "react-markdown";
 import { useEffect, useRef, useState } from "react";
 import rehypeRaw from "rehype-raw";

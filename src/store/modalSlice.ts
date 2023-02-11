@@ -1,5 +1,4 @@
-import { StateCreator } from "zustand";
-import { Store } from ".";
+import { Slice } from ".";
 
 export interface IModalSlice {
   isVisible: boolean;
@@ -11,12 +10,7 @@ export interface IModalSlice {
   setQuery: (s: string) => void;
 }
 
-const createModalSlice: StateCreator<
-  Store,
-  [["zustand/devtools", never]],
-  [],
-  IModalSlice
-> = (set) => ({
+const createModalSlice: Slice<IModalSlice> = (set) => ({
   isVisible: false,
   totalResults: 0,
   query: "",

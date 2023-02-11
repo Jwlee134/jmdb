@@ -9,12 +9,7 @@ import { useEffect, useRef } from "react";
 import { shallow } from "zustand/shallow";
 import { discover } from "../libs/api/movies";
 import { useLocation, useNavigate } from "react-router-dom";
-
-type DeepPartial<T> = T extends object
-  ? {
-      [P in keyof T]?: DeepPartial<T[P]>;
-    }
-  : T;
+import { DeepPartial } from "../libs/utils/types";
 
 interface IForm {
   sort_by: string;

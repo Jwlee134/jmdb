@@ -2,10 +2,12 @@ import useEmblaCarousel from "embla-carousel-react";
 import { useCallback, useEffect, useState } from "react";
 import { flushSync } from "react-dom";
 import { Link } from "react-router-dom";
+import { shallow } from "zustand/shallow";
 import { IMovie } from "../libs/api/types";
 import { GENRES } from "../libs/constants";
-import { makeImgPath } from "../libs/utils";
-import ScaleCarouselSkeleton from "./skeletons/ScaleCarouselSkeleton";
+import { isPlaceholder, makeImgPath, Placeholder } from "../libs/utils";
+import useBoundStore from "../store";
+import Skeleton from "./Skeleton";
 
 const TWEEN_FACTOR = 3;
 
@@ -13,18 +15,24 @@ const numberWithinRange = (number: number, min: number, max: number): number =>
   Math.min(Math.max(number, min), max);
 
 interface IProps {
-  data?: IMovie[];
+  data: IMovie[] | Placeholder[];
 }
 
 export default function ScaleCarousel({ data }: IProps) {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
+  const { getCache, setCache } = useBoundStore(
+    (state) => ({ getCache: state.getCache, setCache: state.setCache }),
+    shallow
+  );
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    loop: true,
+    startIndex: getCache("discover"),
+  });
   const [tweenValues, setTweenValues] = useState<number[]>([]);
 
   const onScroll = useCallback(() => {
     if (!emblaApi) return;
     const engine = emblaApi.internalEngine();
     const scrollProgress = emblaApi.scrollProgress();
-
     const styles = emblaApi.scrollSnapList().map((scrollSnap, index) => {
       if (!emblaApi.slidesInView().includes(index)) return 0;
       let diffToTarget = scrollSnap - scrollProgress;
@@ -54,7 +62,10 @@ export default function ScaleCarousel({ data }: IProps) {
     emblaApi.on("reInit", onScroll);
   }, [emblaApi, onScroll]);
 
-  if (!data) return <ScaleCarouselSkeleton />;
+  useEffect(() => {
+    if (!emblaApi) return;
+    emblaApi.reInit();
+  }, [data, emblaApi]);
 
   return (
     <div className="overflow-hidden" ref={emblaRef}>
@@ -64,6 +75,7 @@ export default function ScaleCarousel({ data }: IProps) {
             key={movie.id}
             to={`/movie/${movie.id}`}
             className="flex-[0_0_60%] min-w-0 relative"
+            onClick={() => setCache("discover", i)}
           >
             <div
               className="relative pt-[150%] rounded-3xl overflow-hidden"
@@ -77,37 +89,47 @@ export default function ScaleCarousel({ data }: IProps) {
               scale에 적용하는 딜레이 때문에 이미지 scale이 순간적으로 1에서 0.8로 바뀌므로 아래처럼 함 */}
               {tweenValues.length ? (
                 <>
-                  <img
-                    className="absolute w-full h-full top-0 left-0 right-0 bottom-0 object-cover"
-                    src={makeImgPath(movie.poster_path)}
-                    alt="poster"
-                  />
-                  <div className="absolute bottom-0 w-full p-4 backdrop-blur-md">
-                    <div className="flex justify-between items-center">
-                      <div className="flex-grow whitespace-nowrap text-ellipsis overflow-hidden pr-2 text-lg">
-                        {movie.title}
+                  {!isPlaceholder(movie) ? (
+                    <img
+                      className="absolute w-full h-full top-0 left-0 right-0 bottom-0 object-cover"
+                      src={makeImgPath(movie.poster_path)}
+                      alt="poster"
+                    />
+                  ) : (
+                    <Skeleton
+                      containerClassName="overflow-hidden absolute top-0 left-0 right-0 bottom-0 w-full h-full"
+                      className="h-full"
+                    />
+                  )}
+                  {!isPlaceholder(movie) ? (
+                    <div className="absolute bottom-0 w-full p-4 backdrop-blur-md">
+                      <div className="flex justify-between items-center">
+                        <div className="flex-grow whitespace-nowrap text-ellipsis overflow-hidden pr-2 text-lg">
+                          {movie.title}
+                        </div>
+                        <div className="flex-shrink-0">
+                          <span>{movie.vote_average} </span>
+                          <span className="text-yellow-300">★</span>
+                        </div>
                       </div>
-                      <div className="flex-shrink-0">
-                        <span>{movie.vote_average} </span>
-                        <span className="text-yellow-300">★</span>
+                      <div className="flex space-x-2 pt-2">
+                        {movie.genre_ids
+                          .slice(0, 2)
+                          .map(
+                            (id) =>
+                              GENRES.find((genre) => genre.id === id)?.name
+                          )
+                          .map((genre, i) => (
+                            <div
+                              key={i}
+                              className="bg-blue-600 py-1 px-2 rounded-full text-sm"
+                            >
+                              {genre}
+                            </div>
+                          ))}
                       </div>
                     </div>
-                    <div className="flex space-x-2 pt-2">
-                      {movie.genre_ids
-                        .slice(0, 2)
-                        .map(
-                          (id) => GENRES.find((genre) => genre.id === id)?.name
-                        )
-                        .map((genre, i) => (
-                          <div
-                            key={i}
-                            className="bg-blue-600 py-1 px-2 rounded-full text-sm"
-                          >
-                            {genre}
-                          </div>
-                        ))}
-                    </div>
-                  </div>
+                  ) : null}
                 </>
               ) : null}
             </div>

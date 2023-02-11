@@ -1,18 +1,12 @@
-import { StateCreator } from "zustand";
-import { Store } from ".";
+import { Slice } from ".";
 
-export interface UserAgentSlice {
+export interface IUserAgentSlice {
   countryCode: string;
   countryName: string;
   setCountryInfo: (code: string, name: string) => void;
 }
 
-const createUserAgentSlice: StateCreator<
-  Store,
-  [["zustand/devtools", never]],
-  [],
-  UserAgentSlice
-> = (set) => ({
+const createUserAgentSlice: Slice<IUserAgentSlice> = (set) => ({
   countryCode: "",
   countryName: "",
   setCountryInfo: (code, name) =>

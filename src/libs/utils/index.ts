@@ -26,7 +26,7 @@ export interface Placeholder {
 
 /**
  *
- * @param l How many placeholders will be shown.
+ * @param l How many placeholders will be shown. 5 by default.
  * @returns Array of placeholders
  */
 export function placeholders(l = 5): Placeholder[] {
