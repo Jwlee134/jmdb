@@ -3,7 +3,7 @@ import createModalSlice, { IModalSlice } from "./modalSlice";
 import { devtools } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import createUserAgentSlice, { IUserAgentSlice } from "./userAgentSlice";
-import createCacheSlice, { ICacheSlice } from "./indexSlice";
+import createCacheSlice, { ICacheSlice } from "./cacheSlice";
 
 export type Store = IModalSlice & IUserAgentSlice & ICacheSlice;
 

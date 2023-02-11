@@ -94,7 +94,7 @@ export default function MovieDetail() {
                 <div>
                   <span className="text-xl">{details.title}</span>{" "}
                   <span className="text-xs text-gray-400">
-                    ({details.release_date.split("-")[0]})
+                    ({details.release_date.split("-")[0] || "0000"})
                   </span>
                 </div>
                 <div className="text-sm font-light text-gray-400">
@@ -145,18 +145,15 @@ export default function MovieDetail() {
               {...data}
             />
           )}
+          cacheKey="casts"
         />
       </Section>
       <Section headerTitle="Videos">
         <ScrollView
           data={videos?.results}
           renderItem={({ item }) => <Video key={item.id} data={item} />}
+          emptyText="No Videos provided."
         />
-        {videos && !videos.results.length ? (
-          <p className="px-6 text-sm text-gray-400 font-light">
-            No Videos provided.
-          </p>
-        ) : null}
       </Section>
       <Section headerTitle="Reviews">
         <div className="space-y-6">
@@ -188,6 +185,7 @@ export default function MovieDetail() {
           data={similars?.results}
           renderItem={(data) => <Poster key={data.item.id} {...data} />}
           cacheKey="similarMovies"
+          emptyText="No similar movies provided."
         />
       </Section>
     </>

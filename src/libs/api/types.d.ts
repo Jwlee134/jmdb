@@ -189,17 +189,14 @@ export interface IPerson {
   profile_path?: string;
 }
 
-export interface IPersonDetail {
+export interface IPersonDetail extends IPerson {
   birthday?: string;
   known_for_department: string;
   deathday?: string;
-  id: number;
-  name: string;
   gender: number;
   biography: string;
   popularity: number;
   place_of_birth?: string;
-  profile_path?: string;
   adult: boolean;
   imdb_id: string;
   homepage?: string;
@@ -224,4 +221,18 @@ export interface IPersonMovieCredits {
 
 export interface IPeople extends Paginator {
   results: IPerson[];
+}
+
+export interface IProfile {
+  aspect_ratio: number;
+  file_path: string;
+  height: number;
+  vote_average: number;
+  vote_count: number;
+  width: number;
+}
+
+export interface IPersonImage {
+  id: number;
+  profiles: IProfile[];
 }
