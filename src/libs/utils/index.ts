@@ -14,6 +14,7 @@ export function cls(...args: string[]) {
  */
 export function makeImgPath(url?: string, resolution?: number | string) {
   if (url?.includes("gravatar")) return url.slice(1);
+  if (url?.includes("https")) return url;
   return url
     ? `https://image.tmdb.org/t/p/w${resolution || 500}${url}`
     : "https://picsum.photos/id/237/200/300";

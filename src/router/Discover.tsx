@@ -11,6 +11,7 @@ import FilterModal from "../components/FilterModal";
 import HorizontalPoster from "../components/HorizontalPoster";
 import { shallow } from "zustand/shallow";
 import HeaderContainer from "../components/containers/HeaderContainer";
+import HeaderBtn from "../components/HeaderBtn";
 
 export default function Discover() {
   const { search } = useLocation();
@@ -37,8 +38,11 @@ export default function Discover() {
         <Header
           title="Discover"
           showBackBtn
-          rightIcons={[<BsFilter />]}
-          rightIconsOnClick={[openModal]}
+          rightIcons={[
+            <HeaderBtn onClick={openModal}>
+              <BsFilter />
+            </HeaderBtn>,
+          ]}
         />
       }
     >

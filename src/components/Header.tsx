@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { RxChevronLeft } from "react-icons/rx";
 import { cls } from "../libs/utils";
-import { MouseEventHandler, ReactNode, useRef } from "react";
+import { Fragment, ReactNode, useRef } from "react";
 import { useScroll, useTransform, motion } from "framer-motion";
 import HeaderBtn from "./HeaderBtn";
 
@@ -10,7 +10,6 @@ interface IProps {
   subTitle?: string;
   showBackBtn?: boolean;
   rightIcons?: ReactNode[] | null;
-  rightIconsOnClick?: MouseEventHandler<HTMLButtonElement>[];
   transparent?: boolean;
 }
 
@@ -19,7 +18,6 @@ export default function Header({
   subTitle,
   showBackBtn = true,
   rightIcons,
-  rightIconsOnClick,
   transparent = false,
 }: IProps) {
   const navigate = useNavigate();
@@ -54,15 +52,7 @@ export default function Header({
       </div>
       <div className="w-[25%] flex justify-end items-center space-x-2">
         {rightIcons?.length
-          ? rightIcons.map((icon, i) => (
-              <HeaderBtn
-                key={i}
-                onClick={rightIconsOnClick?.[i]}
-                transparent={transparent}
-              >
-                {icon}
-              </HeaderBtn>
-            ))
+          ? rightIcons.map((icon, i) => <Fragment key={i}>{icon}</Fragment>)
           : null}
       </div>
     </motion.header>

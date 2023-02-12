@@ -8,10 +8,14 @@ import { ReactNode } from "react";
 
 interface IProps extends HTMLMotionProps<"button"> {
   children: ReactNode;
-  transparent: boolean;
+  transparent?: boolean;
 }
 
-export default function HeaderBtn({ children, transparent, ...rest }: IProps) {
+export default function HeaderBtn({
+  children,
+  transparent = false,
+  ...rest
+}: IProps) {
   const { scrollY } = useScroll();
   const backgroundColor = useTransform(
     scrollY,

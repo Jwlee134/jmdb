@@ -5,12 +5,17 @@ export default function useImageLoad(src: string | string[]) {
 
   useEffect(() => {
     if (!src) return;
-    const promise = (src: string) =>
-      new Promise((resolve) => {
+
+    const promise = (src: string) => {
+      return new Promise<void>((resolve) => {
         const img = new Image();
         img.src = src;
-        img.onload = resolve;
+        img.onload = () => {
+          resolve();
+        };
       });
+    };
+
     if (Array.isArray(src)) {
       Promise.all(src.map((s) => promise(s))).then(() => {
         setLoaded(true);

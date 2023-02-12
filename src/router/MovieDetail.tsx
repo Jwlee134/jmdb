@@ -10,10 +10,10 @@ import Video from "../components/Video";
 import { movie } from "../libs/api/movies";
 import useImageLoad from "../libs/hooks/useImageLoad";
 import { formatRuntime, makeImgPath, placeholders } from "../libs/utils";
-import { IoHeartOutline } from "react-icons/io5";
 import Review from "../components/Review";
 import { useEffect } from "react";
 import HeaderContainer from "../components/containers/HeaderContainer";
+import FavIcon from "../components/FavIcon";
 
 export default function MovieDetail() {
   const { id } = useParams();
@@ -63,7 +63,16 @@ export default function MovieDetail() {
 
   return (
     <HeaderContainer
-      Header={<Header transparent rightIcons={[<IoHeartOutline />]} />}
+      Header={
+        <Header
+          transparent
+          rightIcons={
+            id && isReady
+              ? [<FavIcon id={parseInt(id)} details={details} />]
+              : null
+          }
+        />
+      }
       overwrap
     >
       <div className="relative pt-[100%] overflow-hidden">

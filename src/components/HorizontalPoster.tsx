@@ -5,12 +5,19 @@ import { isPlaceholder, makeImgPath, Placeholder } from "../libs/utils";
 import { memo } from "react";
 import { Link } from "react-router-dom";
 import Skeleton from "./Skeleton";
+import { RiDeleteBin2Fill } from "react-icons/ri";
+import useBoundStore from "../store";
 
 interface IProps {
   data: IMovie | Placeholder;
+  showDelBtn?: boolean;
 }
 
-export default memo(function HorizontalPoster({ data }: IProps) {
+export default memo(function HorizontalPoster({
+  data,
+  showDelBtn = false,
+}: IProps) {
+  const toggleFav = useBoundStore((state) => state.toggleFav);
   const loaded = useImageLoad(
     data && !isPlaceholder(data) ? makeImgPath(data.poster_path) : ""
   );
@@ -19,7 +26,7 @@ export default memo(function HorizontalPoster({ data }: IProps) {
   return (
     <Link
       to={`/movie/${data.id}`}
-      className="flex"
+      className="flex relative"
       onClick={(e) => {
         if (!isReady) e.preventDefault();
       }}
@@ -73,6 +80,17 @@ export default memo(function HorizontalPoster({ data }: IProps) {
           <Skeleton />
         )}
       </div>
+      {showDelBtn ? (
+        <button
+          className="bottom-1 right-1 absolute text-gray-400 text-xl"
+          onClick={(e) => {
+            e.preventDefault();
+            toggleFav(data.id);
+          }}
+        >
+          <RiDeleteBin2Fill />
+        </button>
+      ) : null}
     </Link>
   );
 });
