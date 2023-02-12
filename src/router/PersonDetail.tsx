@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import Header from "../components/Header";
 import Image from "../components/Image";
 import Poster from "../components/Poster";
-import ScrollView from "../components/ScrollView";
+import ScrollView from "../components/containers/ScrollContainer";
 import Section from "../components/Section";
 import Skeleton from "../components/Skeleton";
 import { person } from "../libs/api/people";

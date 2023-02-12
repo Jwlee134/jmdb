@@ -1,7 +1,7 @@
 import { IProfile } from "../libs/api/types";
 import useImageLoad from "../libs/hooks/useImageLoad";
 import { isPlaceholder, makeImgPath } from "../libs/utils";
-import { RenderItemProps } from "./ScrollView";
+import { RenderItemProps } from "./containers/ScrollContainer";
 import Skeleton from "./Skeleton";
 
 interface IProps extends RenderItemProps<IProfile> {}

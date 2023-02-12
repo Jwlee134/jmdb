@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import Header from "../components/Header";
 import Poster from "../components/Poster";
 import Profile from "../components/Profile";
-import ScrollView from "../components/ScrollView";
+import ScrollView from "../components/containers/ScrollContainer";
 import Section from "../components/Section";
 import Skeleton from "../components/Skeleton";
 import Video from "../components/Video";
@@ -13,6 +13,7 @@ import { formatRuntime, makeImgPath, placeholders } from "../libs/utils";
 import { IoHeartOutline } from "react-icons/io5";
 import Review from "../components/Review";
 import { useEffect } from "react";
+import HeaderContainer from "../components/containers/HeaderContainer";
 
 export default function MovieDetail() {
   const { id } = useParams();
@@ -61,8 +62,10 @@ export default function MovieDetail() {
   }, [id]);
 
   return (
-    <>
-      <Header transparent rightIcons={[<IoHeartOutline />]} />
+    <HeaderContainer
+      Header={<Header transparent rightIcons={[<IoHeartOutline />]} />}
+      overwrap
+    >
       <div className="relative pt-[100%] overflow-hidden">
         {isReady ? (
           <img
@@ -188,6 +191,6 @@ export default function MovieDetail() {
           emptyText="No similar movies provided."
         />
       </Section>
-    </>
+    </HeaderContainer>
   );
 }

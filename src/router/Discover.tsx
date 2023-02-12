@@ -10,6 +10,7 @@ import Portal from "../components/Portal";
 import FilterModal from "../components/FilterModal";
 import HorizontalPoster from "../components/HorizontalPoster";
 import { shallow } from "zustand/shallow";
+import HeaderContainer from "../components/containers/HeaderContainer";
 
 export default function Discover() {
   const { search } = useLocation();
@@ -31,14 +32,17 @@ export default function Discover() {
   const ref = useIntersectionObserver(fetchNextPage);
 
   return (
-    <>
-      <Header
-        title="Discover"
-        showBackBtn
-        rightIcons={[<BsFilter />]}
-        rightIconsOnClick={[openModal]}
-      />
-      <div className="p-6 space-y-4 pt-20">
+    <HeaderContainer
+      Header={
+        <Header
+          title="Discover"
+          showBackBtn
+          rightIcons={[<BsFilter />]}
+          rightIconsOnClick={[openModal]}
+        />
+      }
+    >
+      <div className="p-6 space-y-4">
         {(
           data?.pages?.map((page) => page.results).flat() || placeholders(10)
         ).map((movie) => (
@@ -49,6 +53,6 @@ export default function Discover() {
       <Portal>
         <FilterModal />
       </Portal>
-    </>
+    </HeaderContainer>
   );
 }

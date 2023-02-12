@@ -1,7 +1,7 @@
 import { GENRES, PROVIDERS, SORT_BY } from "../libs/constants";
 import { cls, makeImgPath } from "../libs/utils";
 import useBoundStore from "../store";
-import ModalContainer from "./ModalContainer";
+import ModalContainer from "./containers/ModalContainer";
 import { AiOutlineCheckCircle } from "react-icons/ai";
 import { motion, AnimatePresence } from "framer-motion";
 import { useForm } from "react-hook-form";

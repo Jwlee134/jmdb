@@ -13,9 +13,9 @@ export default function App() {
   }, [setCountryInfo]);
 
   return (
-    <main className="max-w-7xl min-h-screen mx-auto bg-black text-gray-200 relative">
+    <main className="max-w-screen-sm min-h-screen mx-auto relative">
       <Outlet />
-      <div id="modal" />
+      <div id="modal" className="max-w-[inherit]" />
     </main>
   );
 }

@@ -1,5 +1,5 @@
 import { motion, AnimatePresence, Variants } from "framer-motion";
-import useBoundStore from "../store";
+import useBoundStore from "../../store";
 import { shallow } from "zustand/shallow";
 import { IoClose } from "react-icons/io5";
 import { ReactNode, useEffect } from "react";
@@ -33,7 +33,7 @@ export default function ModalContainer({ title, children }: IProps) {
   return (
     <AnimatePresence>
       {isVisible ? (
-        <div className="grid place-items-center fixed top-0 z-[999] w-full h-full">
+        <div className="grid place-items-center fixed top-0 z-[999] w-full h-full max-w-[inherit]">
           <motion.div
             variants={bg}
             initial="initial"

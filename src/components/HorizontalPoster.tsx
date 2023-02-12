@@ -66,7 +66,7 @@ export default memo(function HorizontalPoster({ data }: IProps) {
             ) : null}
             <div className="bg-gray-800 rounded-full p-2">
               <span className="text-yellow-300 mr-1">★</span>
-              {data.vote_average}
+              {data.vote_average.toFixed(1)}
             </div>
           </div>
         ) : (

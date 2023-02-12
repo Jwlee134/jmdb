@@ -19,7 +19,7 @@ export default function SearchResults({ data, fetchNextPage }: IProps) {
   const ref = useIntersectionObserver(fetchNextPage);
 
   return (
-    <div className="p-6 space-y-4">
+    <div className="p-6 space-y-4 relative z-[999] bg-black">
       {(
         data?.pages?.map((page) => page.results).flat() || placeholders(10)
       ).map((movie) => (

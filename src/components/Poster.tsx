@@ -4,7 +4,7 @@ import { GENRES } from "../libs/constants";
 import useImageLoad from "../libs/hooks/useImageLoad";
 import { isPlaceholder, makeImgPath } from "../libs/utils";
 import useBoundStore from "../store";
-import { RenderItemProps } from "./ScrollView";
+import { RenderItemProps } from "./containers/ScrollContainer";
 import Skeleton from "./Skeleton";
 
 export default function Poster({

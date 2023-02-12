@@ -34,7 +34,7 @@ export default function Header({
   return (
     <motion.header
       ref={ref}
-      className="bg-black h-20 fixed top-0 w-full z-[998] px-6 flex items-center"
+      className="bg-black h-20 fixed top-0 w-full max-w-[inherit] z-[998] px-6 flex items-center"
       style={{ ...(transparent && { backgroundColor }) }}
     >
       <div className="w-[25%] flex items-center">

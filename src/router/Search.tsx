@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Poster from "../components/Poster";
 import Profile from "../components/Profile";
-import ScrollView from "../components/ScrollView";
+import ScrollView from "../components/containers/ScrollContainer";
 import Section from "../components/Section";
 import { trending } from "../libs/api/trending";
 import { GENRES } from "../libs/constants";

@@ -1,9 +1,9 @@
 import useEmblaCarousel from "embla-carousel-react";
 import { ReactNode } from "react";
 import { useParams } from "react-router-dom";
-import { Placeholder, placeholders } from "../libs/utils";
-import useBoundStore from "../store";
-import { CacheKey } from "../store/cacheSlice";
+import { Placeholder, placeholders } from "../../libs/utils";
+import useBoundStore from "../../store";
+import { CacheKey } from "../../store/cacheSlice";
 
 export interface RenderItemProps<T> {
   item: T | Placeholder;
