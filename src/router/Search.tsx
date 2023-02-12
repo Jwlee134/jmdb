@@ -12,6 +12,7 @@ import { FiSearch } from "react-icons/fi";
 import { search as api } from "../libs/api/movies";
 import { useEffect } from "react";
 import SearchResults from "../components/SearchResults";
+import { IoCloseCircleOutline } from "react-icons/io5";
 
 interface IForm {
   query: string;
@@ -28,7 +29,7 @@ export default function Search() {
   });
 
   const { search } = useLocation();
-  const { register, watch } = useForm<IForm>({
+  const { register, watch, setValue } = useForm<IForm>({
     defaultValues: { query: new URLSearchParams(search).get("q") || "" },
   });
   const value = useDebounce(watch("query"));
@@ -49,7 +50,10 @@ export default function Search() {
 
   return (
     <>
-      <form className="flex items-center p-6 pb-0">
+      <form
+        className="flex items-center p-6 pb-0 relative"
+        onSubmit={(e) => e.preventDefault()}
+      >
         <label
           htmlFor="search"
           className="bg-neutral-800 h-10 grid place-items-center w-8 text-gray-400 rounded-l-md"
@@ -62,8 +66,17 @@ export default function Search() {
           className="outline-none bg-neutral-800 text-sm grow h-10 placeholder:text-gray-500 rounded-r-md"
           placeholder="Search by keyword."
         />
+        {watch("query") ? (
+          <button
+            type="button"
+            className="absolute text-gray-400 right-6 w-10 h-10 grid place-items-center"
+            onClick={() => setValue("query", "")}
+          >
+            <IoCloseCircleOutline />
+          </button>
+        ) : null}
       </form>
-      {!value ? (
+      {!watch("query") ? (
         <>
           <Section headerTitle="Trending Movies">
             <ScrollView
