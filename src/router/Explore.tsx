@@ -18,7 +18,7 @@ interface IForm {
   query: string;
 }
 
-export default function Search() {
+export default function Explore() {
   const { data: movies } = useQuery({
     queryKey: ["trending", "movie"],
     queryFn: trending.getTrendingMovies,
@@ -45,7 +45,7 @@ export default function Search() {
   });
 
   useEffect(() => {
-    navigate(value ? `/search?q=${value}` : "/search", { replace: true });
+    navigate(value ? `/explore?q=${value}` : "/explore", { replace: true });
   }, [value, navigate]);
 
   return (
