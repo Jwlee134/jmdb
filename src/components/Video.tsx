@@ -33,7 +33,7 @@ export default function Video({ data }: IProps) {
         ) : (
           <Skeleton
             containerClassName="overflow-hidden absolute top-0 left-0 right-0 bottom-0 w-full h-full"
-            className="h-full"
+            className="absolute h-full"
           />
         )}
       </div>

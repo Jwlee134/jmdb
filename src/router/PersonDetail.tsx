@@ -1,6 +1,5 @@
 import { useQueries } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { IoHeartOutline } from "react-icons/io5";
 import { useParams } from "react-router-dom";
 import Header from "../components/Header";
 import Image from "../components/Image";
@@ -11,6 +10,7 @@ import Skeleton from "../components/Skeleton";
 import { person } from "../libs/api/people";
 import useImageLoad from "../libs/hooks/useImageLoad";
 import { makeImgPath } from "../libs/utils";
+import HeaderContainer from "../components/containers/HeaderContainer";
 
 export default function PersonDetail() {
   const { id } = useParams();
@@ -35,8 +35,7 @@ export default function PersonDetail() {
   }, [id]);
 
   return (
-    <>
-      <Header transparent rightIcons={[<IoHeartOutline />]} />
+    <HeaderContainer Header={<Header transparent />} overwrap>
       <div className="relative pt-[100%] overflow-hidden">
         {isReady ? (
           <img
@@ -57,7 +56,7 @@ export default function PersonDetail() {
               ) : (
                 <Skeleton
                   containerClassName="overflow-hidden absolute top-0 left-0 right-0 bottom-0 w-full h-full"
-                  className="h-full"
+                  className="absolute h-full"
                 />
               )}
             </div>
@@ -104,6 +103,6 @@ export default function PersonDetail() {
           emptyText="No movies contributed."
         />
       </Section>
-    </>
+    </HeaderContainer>
   );
 }

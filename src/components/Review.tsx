@@ -44,7 +44,7 @@ export default function Review({ data }: IProps) {
           ) : (
             <Skeleton width={48} height={48} className="rounded-full" />
           )}
-          <div>
+          <div className="min-w-full flex flex-col justify-center">
             <div>{isReady ? data.author : <Skeleton />}</div>
             <div className="text-sm font-light text-gray-400">
               {isReady ? formatCreatedAt(data.created_at) : <Skeleton />}
@@ -80,7 +80,9 @@ export default function Review({ data }: IProps) {
           ) : null}
         </div>
       ) : (
-        <Skeleton count={3} />
+        <div>
+          <Skeleton count={3} />
+        </div>
       )}
     </div>
   );
