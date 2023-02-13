@@ -15,6 +15,7 @@ import { placeholders } from "../libs/utils";
 import HorizontalPoster from "./HorizontalPoster";
 import { IoArrowUpCircle } from "react-icons/io5";
 import { useState } from "react";
+import HorizontalPosterContainer from "./containers/HorizontalPosterContainer";
 
 interface IProps {
   data?: InfiniteData<IMovies>;
@@ -35,14 +36,14 @@ export default function SearchResults({ data, fetchNextPage }: IProps) {
 
   return (
     <>
-      <div className="p-6 space-y-4 relative z-[999] bg-black">
+      <HorizontalPosterContainer>
         {(
           data?.pages?.map((page) => page.results).flat() || placeholders(10)
         ).map((movie) => (
           <HorizontalPoster key={movie.id} data={movie} />
         ))}
         <div ref={ref} />
-      </div>
+      </HorizontalPosterContainer>
       <AnimatePresence>
         {showBtn ? (
           <motion.div
@@ -50,7 +51,7 @@ export default function SearchResults({ data, fetchNextPage }: IProps) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.1 }}
-            className="fixed bottom-0 w-full max-w-[inherit] px-6 py-4 z-[999] grid place-items-end pointer-events-none"
+            className="fixed bottom-16 w-full max-w-[inherit] px-6 py-4 z-[999] grid place-items-end pointer-events-none"
           >
             <button
               className="w-10 h-10 text-4xl grid place-items-center pointer-events-auto"

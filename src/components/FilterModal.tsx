@@ -125,73 +125,75 @@ function Body() {
           ))}
         </select>
       </div>
-      <div className="space-y-1">
-        <label>Runtime</label>
-        <div className="flex justify-center items-center space-x-3">
-          <span className="text-gray-400">gte: </span>
-          <input
-            type="text"
-            {...register("with_runtime.gte", {
-              maxLength: 3,
-              validate: { noString: (v) => (v ? !isNaN(parseInt(v)) : true) },
-            })}
-            className={cls(
-              "bg-black w-16 border border-gray-600 rounded-full px-3 py-1 text-gray-400 outline-none",
-              errors.with_runtime?.gte ? "border-red-500" : ""
-            )}
-          />
-          <span className="text-gray-400">lte: </span>
-          <input
-            type="number"
-            {...register("with_runtime.lte", {
-              maxLength: 3,
-              validate: { noString: (v) => (v ? !isNaN(parseInt(v)) : true) },
-            })}
-            className={cls(
-              "bg-black w-16 border border-gray-600 rounded-full px-3 py-1 text-gray-400 outline-none",
-              errors.with_runtime?.lte ? "border-red-500" : ""
-            )}
-          />
+      <div className="max-sm:space-y-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:place-items-start">
+        <div className="space-y-1">
+          <label>Runtime</label>
+          <div className="flex justify-center items-center space-x-3">
+            <span className="text-gray-400">gte: </span>
+            <input
+              type="text"
+              {...register("with_runtime.gte", {
+                maxLength: 3,
+                validate: { noString: (v) => (v ? !isNaN(parseInt(v)) : true) },
+              })}
+              className={cls(
+                "bg-black w-16 border border-gray-600 rounded-full px-3 py-1 text-gray-400 outline-none",
+                errors.with_runtime?.gte ? "border-red-500" : ""
+              )}
+            />
+            <span className="text-gray-400">lte: </span>
+            <input
+              type="number"
+              {...register("with_runtime.lte", {
+                maxLength: 3,
+                validate: { noString: (v) => (v ? !isNaN(parseInt(v)) : true) },
+              })}
+              className={cls(
+                "bg-black w-16 border border-gray-600 rounded-full px-3 py-1 text-gray-400 outline-none",
+                errors.with_runtime?.lte ? "border-red-500" : ""
+              )}
+            />
+          </div>
         </div>
-      </div>
-      <div className="space-y-1">
-        <label>Rating</label>
-        <div className="flex justify-center items-center space-x-3">
-          <span className="text-gray-400">gte: </span>
-          <input
-            type="number"
-            {...register("vote_average.gte", {
-              validate: {
-                moreThan10: (v) =>
-                  v ? parseInt(v) <= 10 && parseInt(v) >= 0 : true,
-                noString: (v) => (v ? !isNaN(parseInt(v)) : true),
-              },
-            })}
-            className={cls(
-              "bg-black w-16 border border-gray-600 rounded-full px-3 py-1 text-gray-400 outline-none",
-              errors.vote_average?.gte ? "border-red-500" : ""
-            )}
-          />
-          <span className="text-gray-400">lte: </span>
-          <input
-            type="number"
-            {...register("vote_average.lte", {
-              validate: {
-                moreThan10: (v) =>
-                  v ? parseInt(v) <= 10 && parseInt(v) >= 0 : true,
-                noString: (v) => (v ? !isNaN(parseInt(v)) : true),
-              },
-            })}
-            className={cls(
-              "bg-black w-16 border border-gray-600 rounded-full px-3 py-1 text-gray-400 outline-none",
-              errors.vote_average?.lte ? "border-red-500" : ""
-            )}
-          />
+        <div className="space-y-1">
+          <label>Rating</label>
+          <div className="flex justify-center items-center space-x-3">
+            <span className="text-gray-400">gte: </span>
+            <input
+              type="number"
+              {...register("vote_average.gte", {
+                validate: {
+                  moreThan10: (v) =>
+                    v ? parseInt(v) <= 10 && parseInt(v) >= 0 : true,
+                  noString: (v) => (v ? !isNaN(parseInt(v)) : true),
+                },
+              })}
+              className={cls(
+                "bg-black w-16 border border-gray-600 rounded-full px-3 py-1 text-gray-400 outline-none",
+                errors.vote_average?.gte ? "border-red-500" : ""
+              )}
+            />
+            <span className="text-gray-400">lte: </span>
+            <input
+              type="number"
+              {...register("vote_average.lte", {
+                validate: {
+                  moreThan10: (v) =>
+                    v ? parseInt(v) <= 10 && parseInt(v) >= 0 : true,
+                  noString: (v) => (v ? !isNaN(parseInt(v)) : true),
+                },
+              })}
+              className={cls(
+                "bg-black w-16 border border-gray-600 rounded-full px-3 py-1 text-gray-400 outline-none",
+                errors.vote_average?.lte ? "border-red-500" : ""
+              )}
+            />
+          </div>
         </div>
       </div>
       <div>
         <label>Genres</label>
-        <div className="grid grid-cols-2 mt-2 gap-y-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 mt-2 gap-y-4 md:gap-x-2">
           {GENRES.map((genre) => (
             <div key={genre.id} className="flex items-center">
               <input
@@ -213,7 +215,7 @@ function Body() {
         <p className="text-xs text-gray-500">
           Based on your location: {countryName}
         </p>
-        <div className="grid grid-cols-3 gap-3 mt-2">
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3 mt-2">
           {PROVIDERS.map((provider) => (
             <div key={provider.provider_id}>
               <input

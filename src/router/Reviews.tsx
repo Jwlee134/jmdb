@@ -25,7 +25,7 @@ export default function Reviews() {
   return (
     <>
       <Header showBackBtn title="Reviews" subTitle={`${state.total} Reviews`} />
-      <div className="pt-20 pb-6 space-y-6">
+      <div className="pt-20 pb-6 max-md:space-y-6 md:grid md:grid-cols-2 md:gap-3">
         {(
           data?.pages?.map((page) => page.results).flat() || placeholders(10)
         ).map((data) => (

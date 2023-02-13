@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import HeaderContainer from "../components/containers/HeaderContainer";
+import HorizontalPosterContainer from "../components/containers/HorizontalPosterContainer";
 import Header from "../components/Header";
 import HorizontalPoster from "../components/HorizontalPoster";
 import { IMovie } from "../libs/api/types";
@@ -10,7 +11,7 @@ export default function Favorites() {
 
   return (
     <HeaderContainer Header={<Header title="Favorites" showBackBtn={false} />}>
-      <div className="p-6 space-y-4">
+      <HorizontalPosterContainer>
         <AnimatePresence mode="popLayout">
           {favs.length ? (
             favs.map((fav) => (
@@ -28,7 +29,7 @@ export default function Favorites() {
             </div>
           )}
         </AnimatePresence>
-      </div>
+      </HorizontalPosterContainer>
     </HeaderContainer>
   );
 }

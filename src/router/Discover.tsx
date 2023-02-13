@@ -12,6 +12,7 @@ import HorizontalPoster from "../components/HorizontalPoster";
 import { shallow } from "zustand/shallow";
 import HeaderContainer from "../components/containers/HeaderContainer";
 import HeaderBtn from "../components/HeaderBtn";
+import HorizontalPosterContainer from "../components/containers/HorizontalPosterContainer";
 
 export default function Discover() {
   const { search } = useLocation();
@@ -46,14 +47,14 @@ export default function Discover() {
         />
       }
     >
-      <div className="p-6 space-y-4">
+      <HorizontalPosterContainer>
         {(
           data?.pages?.map((page) => page.results).flat() || placeholders(10)
         ).map((movie) => (
           <HorizontalPoster key={movie.id} data={movie} />
         ))}
         <div ref={ref} />
-      </div>
+      </HorizontalPosterContainer>
       <Portal>
         <FilterModal />
       </Portal>

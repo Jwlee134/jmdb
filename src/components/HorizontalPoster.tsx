@@ -48,12 +48,12 @@ export default memo(function HorizontalPoster({
         </div>
       </div>
       <div className="ml-4 grow">
-        <h1 className="font-bold mb-1">
+        <h1 className="mb-1 sm:max-md:text-xl">
           {isReady ? data.title : <Skeleton />}
         </h1>
         {isReady ? (
           data.genre_ids.length ? (
-            <div className="text-xs text-gray-500">
+            <div className="text-xs text-gray-500 sm:max-md:text-sm">
               {GENRES.filter((genre) =>
                 Boolean(data.genre_ids.find((id) => genre.id === id))
               )

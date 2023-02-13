@@ -18,7 +18,7 @@ export default function Video({ data }: IProps) {
       href={isReady ? `https://youtu.be/${data.key}` : ""}
       target="_blank"
       rel="noreferrer"
-      className="flex-[0_0_80%] min-w-0"
+      className="flex-[0_0_80%] sm:flex-[0_0_60%] md:flex-[0_0_40%] min-w-0"
       onClick={(e) => {
         if (!isReady) e.preventDefault();
       }}

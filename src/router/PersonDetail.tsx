@@ -25,9 +25,7 @@ export default function PersonDetail() {
         { queryFn: person.getImages, queryKey: ["person", id, "images"] },
       ],
     });
-  const loaded = useImageLoad(
-    details ? makeImgPath(details.profile_path, 300) : ""
-  );
+  const loaded = useImageLoad(details ? makeImgPath(details.profile_path) : "");
   const isReady = details && loaded;
 
   useEffect(() => {
@@ -39,7 +37,7 @@ export default function PersonDetail() {
       <div className="relative pt-[100%] overflow-hidden">
         {isReady ? (
           <img
-            src={makeImgPath(details.profile_path, 300)}
+            src={makeImgPath(details.profile_path)}
             alt="Backdrop"
             className="absolute top-0 left-0 right-0 bottom-0 object-cover w-full h-full blur-sm"
           />
@@ -50,7 +48,7 @@ export default function PersonDetail() {
               {isReady ? (
                 <img
                   className="absolute w-full h-full top-0 left-0 right-0 bottom-0 object-cover"
-                  src={makeImgPath(details.profile_path, 300)}
+                  src={makeImgPath(details.profile_path)}
                   alt="poster"
                 />
               ) : (

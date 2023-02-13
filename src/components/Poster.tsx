@@ -22,7 +22,7 @@ export default function Poster({
   return (
     <Link
       to={`/movie/${item.id}`}
-      className="flex-[0_0_40%] min-w-0"
+      className="flex-[0_0_40%] sm:flex-[0_0_28%] md:flex-[0_0_22%] min-w-0"
       onClick={(e) => {
         if (!isReady) e.preventDefault();
         if (cacheKey) setCache(cacheKey, index, id ? parseInt(id) : undefined);

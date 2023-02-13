@@ -75,7 +75,7 @@ export default function MovieDetail() {
       }
       overwrap
     >
-      <div className="relative pt-[100%] overflow-hidden">
+      <div className="relative pt-[100%] sm:pt-[80%] overflow-hidden">
         {isReady ? (
           <img
             src={makeImgPath(details.backdrop_path, 780)}

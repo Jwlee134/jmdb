@@ -13,7 +13,7 @@ export default function Image({ item }: IProps) {
   const isReady = loaded && !isPlaceholder(item);
 
   return (
-    <div className="flex-[0_0_80%] min-w-0">
+    <div className="flex-[0_0_80%] sm:flex-[0_0_60%] md:flex-[0_0_40%] min-w-0">
       <div className="relative pt-[150%] rounded-2xl overflow-hidden">
         {isReady ? (
           <img

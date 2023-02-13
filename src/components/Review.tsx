@@ -60,7 +60,9 @@ export default function Review({ data }: IProps) {
       </div>
       {isReady ? (
         <div className="flex flex-col">
-          <div className={cls("overflow-hidden", showMore ? "h-auto" : "h-16")}>
+          <div
+            className={cls("overflow-hidden", showMore ? "h-auto" : "max-h-16")}
+          >
             <div ref={ref}>
               <ReactMarkdown
                 rehypePlugins={[rehypeRaw]}

@@ -74,7 +74,7 @@ export default function ScaleCarousel({ data }: IProps) {
           <Link
             key={movie.id}
             to={`/movie/${movie.id}`}
-            className="flex-[0_0_60%] min-w-0 relative"
+            className="flex-[0_0_60%] sm:flex-[0_0_40%] md:flex-[0_0_33%] min-w-0 relative"
             onClick={() => setCache("discover", i)}
           >
             <div
@@ -102,7 +102,7 @@ export default function ScaleCarousel({ data }: IProps) {
                     />
                   )}
                   {!isPlaceholder(movie) ? (
-                    <div className="absolute bottom-0 w-full p-4 backdrop-blur-md">
+                    <div className="absolute bottom-0 w-full p-4 backdrop-blur-md md:py-6">
                       <div className="flex justify-between items-center">
                         <div className="flex-grow whitespace-nowrap text-ellipsis overflow-hidden pr-2 text-lg">
                           {movie.title}
