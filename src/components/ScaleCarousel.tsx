@@ -7,7 +7,7 @@ import { IMovie } from "../libs/api/types";
 import { GENRES } from "../libs/constants";
 import { isPlaceholder, makeImgPath, Placeholder } from "../libs/utils";
 import useBoundStore from "../store";
-import Skeleton from "./Skeleton";
+import RatioSkeleton from "./RatioSkeleton";
 
 const TWEEN_FACTOR = 3;
 
@@ -96,10 +96,7 @@ export default function ScaleCarousel({ data }: IProps) {
                       alt="poster"
                     />
                   ) : (
-                    <Skeleton
-                      containerClassName="overflow-hidden absolute top-0 left-0 right-0 bottom-0 w-full h-full"
-                      className="absolute h-full"
-                    />
+                    <RatioSkeleton rounded="3xl" />
                   )}
                   {!isPlaceholder(movie) ? (
                     <div className="absolute bottom-0 w-full p-4 backdrop-blur-md md:py-6">

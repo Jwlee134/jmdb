@@ -2,7 +2,7 @@ import { IProfile } from "../libs/api/types";
 import useImageLoad from "../libs/hooks/useImageLoad";
 import { isPlaceholder, makeImgPath } from "../libs/utils";
 import { RenderItemProps } from "./containers/ScrollContainer";
-import Skeleton from "./Skeleton";
+import RatioSkeleton from "./RatioSkeleton";
 
 interface IProps extends RenderItemProps<IProfile> {}
 
@@ -22,10 +22,7 @@ export default function Image({ item }: IProps) {
             alt="poster"
           />
         ) : (
-          <Skeleton
-            containerClassName="overflow-hidden absolute top-0 left-0 right-0 bottom-0 w-full h-full"
-            className="h-full"
-          />
+          <RatioSkeleton />
         )}
       </div>
     </div>
