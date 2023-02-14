@@ -1,4 +1,4 @@
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Poster from "../components/Poster";
@@ -13,21 +13,25 @@ import { search as api } from "../libs/api/movies";
 import { useEffect } from "react";
 import SearchResults from "../components/SearchResults";
 import { IoCloseCircleOutline } from "react-icons/io5";
+import useIntersectionObserver from "../libs/hooks/useIntersectionObserver";
 
 interface IForm {
   query: string;
 }
 
 export default function Explore() {
-  const { data: movies } = useQuery({
+  const { data: movies, fetchNextPage: fetchNextMovies } = useInfiniteQuery({
     queryKey: ["trending", "movie"],
     queryFn: trending.getTrendingMovies,
+    getNextPageParam: (lastPage) => lastPage.page + 1,
   });
-  const { data: people } = useQuery({
+  const { data: people, fetchNextPage: fetchNextPeople } = useInfiniteQuery({
     queryKey: ["trending", "person"],
     queryFn: trending.getTrendingCelebs,
+    getNextPageParam: (lastPage) => lastPage.page + 1,
   });
-
+  const ref1 = useIntersectionObserver(fetchNextMovies);
+  const ref2 = useIntersectionObserver(fetchNextPeople);
   const { search } = useLocation();
   const { register, watch, setValue } = useForm<IForm>({
     defaultValues: { query: new URLSearchParams(search).get("q") || "" },
@@ -80,9 +84,10 @@ export default function Explore() {
         <>
           <Section headerTitle="Trending Movies">
             <ScrollView
-              data={movies?.results}
+              data={movies?.pages.map((page) => page.results).flat()}
               renderItem={(data) => <Poster key={data.item.id} {...data} />}
               cacheKey="trendingMovies"
+              infiniteRef={<div ref={ref1} />}
             />
           </Section>
           <Section headerTitle="Genres">
@@ -102,10 +107,12 @@ export default function Explore() {
           </Section>
           <Section headerTitle="Trending People">
             <ScrollView
-              data={people?.results}
+              data={people?.pages.map((page) => page.results).flat()}
               renderItem={(data) => (
                 <Profile key={data.item.id} {...data} showCharacter={false} />
               )}
+              cacheKey="trendingPeople"
+              infiniteRef={<div ref={ref2} />}
             />
           </Section>
         </>

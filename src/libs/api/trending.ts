@@ -6,12 +6,18 @@ import { IMovies, IPeople } from "./types";
  * queryKey: ["trending", "movies" | "celebs"]
  */
 export const trending = {
-  getTrendingMovies: async ({ queryKey }: QueryFunctionContext) =>
+  getTrendingMovies: async ({
+    queryKey,
+    pageParam = 1,
+  }: QueryFunctionContext) =>
     instance
-      .get<IMovies>(`/trending/${queryKey[1]}/day`)
+      .get<IMovies>(`/trending/${queryKey[1]}/day?page=${pageParam}`)
       .then((res) => res.data),
-  getTrendingCelebs: async ({ queryKey }: QueryFunctionContext) =>
+  getTrendingCelebs: async ({
+    queryKey,
+    pageParam = 1,
+  }: QueryFunctionContext) =>
     instance
-      .get<IPeople>(`/trending/${queryKey[1]}/day`)
+      .get<IPeople>(`/trending/${queryKey[1]}/day?page=${pageParam}`)
       .then((res) => res.data),
 };
