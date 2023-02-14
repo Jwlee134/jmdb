@@ -6,6 +6,7 @@ import useImageLoad from "../libs/hooks/useImageLoad";
 import { isPlaceholder, makeImgPath } from "../libs/utils";
 import useBoundStore from "../store";
 import { RenderItemProps } from "./containers/ScrollContainer";
+import RatioSkeleton from "./RatioSkeleton";
 import Skeleton from "./Skeleton";
 
 export default memo(function Poster({
@@ -37,10 +38,7 @@ export default memo(function Poster({
             alt="poster"
           />
         ) : (
-          <Skeleton
-            containerClassName="overflow-hidden absolute top-0 left-0 right-0 bottom-0 w-full h-full"
-            className="absolute h-full"
-          />
+          <RatioSkeleton />
         )}
       </div>
       <div className="mt-1 whitespace-nowrap text-ellipsis overflow-hidden text-sm">
