@@ -14,6 +14,7 @@ import { useEffect } from "react";
 import SearchResults from "../components/SearchResults";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import useIntersectionObserver from "../libs/hooks/useIntersectionObserver";
+import { Helmet } from "react-helmet";
 
 interface IForm {
   query: string;
@@ -54,6 +55,9 @@ export default function Explore() {
 
   return (
     <>
+      <Helmet>
+        <title>JMDB | Explore</title>
+      </Helmet>
       <form
         className="flex items-center p-6 pb-0 relative"
         onSubmit={(e) => e.preventDefault()}

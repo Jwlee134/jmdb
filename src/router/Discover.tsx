@@ -13,6 +13,7 @@ import { shallow } from "zustand/shallow";
 import HeaderContainer from "../components/containers/HeaderContainer";
 import HeaderBtn from "../components/HeaderBtn";
 import HorizontalPosterContainer from "../components/containers/HorizontalPosterContainer";
+import { Helmet } from "react-helmet";
 
 export default function Discover() {
   const { search } = useLocation();
@@ -47,6 +48,9 @@ export default function Discover() {
         />
       }
     >
+      <Helmet>
+        <title>JMDB | Discover</title>
+      </Helmet>
       <HorizontalPosterContainer>
         {(
           data?.pages?.map((page) => page.results).flat() || placeholders(10)
