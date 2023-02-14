@@ -4,6 +4,9 @@ import { NavLink } from "react-router-dom";
 import { cls } from "../libs/utils";
 
 export default function TabBar() {
+  const scrollToTop = () => {
+    window.scrollTo(0, 0);
+  };
   return (
     <nav className="h-16 bg-black fixed w-full max-w-[inherit] bottom-0 z-[998] text-3xl grid grid-cols-3">
       <NavLink
@@ -14,6 +17,7 @@ export default function TabBar() {
             isActive ? "text-white" : "text-gray-500"
           )
         }
+        onClick={scrollToTop}
       >
         <BiCameraMovie />
       </NavLink>
@@ -25,6 +29,7 @@ export default function TabBar() {
             isActive ? "text-white" : "text-gray-500"
           )
         }
+        onClick={scrollToTop}
       >
         <MdOutlineExplore />
       </NavLink>
@@ -36,6 +41,7 @@ export default function TabBar() {
             isActive ? "text-white" : "text-gray-500"
           )
         }
+        onClick={scrollToTop}
       >
         <BiHeart />
       </NavLink>
