@@ -71,10 +71,12 @@ export default memo(function HorizontalPoster({
                 {data.release_date}
               </div>
             ) : null}
-            <div className="bg-gray-800 rounded-full p-2">
-              <span className="text-yellow-300 mr-1">★</span>
-              {data.vote_average.toFixed(1)}
-            </div>
+            {data.vote_average ? (
+              <div className="bg-gray-800 rounded-full p-2">
+                <span className="text-yellow-300 mr-1">★</span>
+                {data.vote_average.toFixed(1)}
+              </div>
+            ) : null}
           </div>
         ) : (
           <Skeleton />

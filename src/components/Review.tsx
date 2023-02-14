@@ -37,9 +37,9 @@ export default function Review({ data }: IProps) {
         <div className="flex space-x-4">
           {isReady ? (
             <img
-              src={makeImgPath(data.author_details.avatar_path, 45)}
+              src={makeImgPath(data.author_details.avatar_path, 185)}
               alt="Avatar"
-              className="w-12 h-12 rounded-full object-cover"
+              className="w-12 h-12 rounded-full object-cover shrink-0"
             />
           ) : (
             <Skeleton width={48} height={48} className="rounded-full" />

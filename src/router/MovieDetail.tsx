@@ -104,9 +104,11 @@ export default function MovieDetail() {
               <>
                 <div>
                   <span className="text-xl">{details.title}</span>{" "}
-                  <span className="text-xs text-gray-400">
-                    ({details.release_date.split("-")[0] || "0000"})
-                  </span>
+                  {details.release_date ? (
+                    <span className="text-xs text-gray-400">
+                      ({details.release_date.split("-")[0] || "0000"})
+                    </span>
+                  ) : null}
                 </div>
                 <div className="text-sm font-light text-gray-400">
                   {details.vote_average ? (
@@ -157,6 +159,7 @@ export default function MovieDetail() {
             />
           )}
           cacheKey="casts"
+          emptyText="No Casts provided."
         />
       </Section>
       <Section headerTitle="Videos">
