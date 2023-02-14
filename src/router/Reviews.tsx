@@ -1,5 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
+import { Helmet } from "react-helmet";
 import { useLocation, useParams } from "react-router-dom";
 import Header from "../components/Header";
 import Review from "../components/Review";
@@ -24,6 +25,9 @@ export default function Reviews() {
 
   return (
     <>
+      <Helmet>
+        <title>JMDB | Reviews</title>
+      </Helmet>
       <Header showBackBtn title="Reviews" subTitle={`${state.total} Reviews`} />
       <div className="pt-20 pb-6 max-md:space-y-6 md:grid md:grid-cols-2 md:gap-3">
         {(

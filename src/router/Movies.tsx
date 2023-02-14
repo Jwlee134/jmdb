@@ -9,6 +9,7 @@ import Section from "../components/Section";
 import { discover, movies } from "../libs/api/movies";
 import { placeholders } from "../libs/utils";
 import useIntersectionObserver from "../libs/hooks/useIntersectionObserver";
+import { Helmet } from "react-helmet";
 
 export default function Movies() {
   const { data } = useQuery({
@@ -42,6 +43,9 @@ export default function Movies() {
 
   return (
     <HeaderContainer Header={<Header title="JMDB" showBackBtn={false} />}>
+      <Helmet>
+        <title>JMDB | Home</title>
+      </Helmet>
       <Section
         headerTitle="Discover"
         onViewAllClick={() => navigate("/discover")}

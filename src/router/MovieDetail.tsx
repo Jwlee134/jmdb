@@ -15,6 +15,7 @@ import { useEffect } from "react";
 import HeaderContainer from "../components/containers/HeaderContainer";
 import FavIcon from "../components/FavIcon";
 import useIntersectionObserver from "../libs/hooks/useIntersectionObserver";
+import { Helmet } from "react-helmet";
 
 export default function MovieDetail() {
   const { id } = useParams();
@@ -74,6 +75,9 @@ export default function MovieDetail() {
       }
       overwrap
     >
+      <Helmet>
+        <title>{details ? `JMDB | ${details.title}` : "Loading"}</title>
+      </Helmet>
       <div className="relative pt-[100%] sm:pt-[80%] overflow-hidden">
         {isReady ? (
           <img

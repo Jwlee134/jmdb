@@ -1,4 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
+import { Helmet } from "react-helmet";
 import HeaderContainer from "../components/containers/HeaderContainer";
 import HorizontalPosterContainer from "../components/containers/HorizontalPosterContainer";
 import Header from "../components/Header";
@@ -11,6 +12,9 @@ export default function Favorites() {
 
   return (
     <HeaderContainer Header={<Header title="Favorites" showBackBtn={false} />}>
+      <Helmet>
+        <title>JMDB | Favorites</title>
+      </Helmet>
       <HorizontalPosterContainer>
         <AnimatePresence mode="popLayout">
           {favs.length ? (
