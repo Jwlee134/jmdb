@@ -19,7 +19,7 @@ export default function Favorites() {
         <AnimatePresence mode="popLayout">
           {favs.length ? (
             favs.map((fav) => (
-              <motion.div key={fav.id} layout>
+              <motion.div key={fav.id} layout exit={{ scale: 0.8, opacity: 0 }}>
                 <HorizontalPoster
                   key={fav.id}
                   data={fav as IMovie}
