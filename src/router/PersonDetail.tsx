@@ -18,7 +18,11 @@ export default function PersonDetail() {
   const [{ data: details }, { data: movieCredits }, { data: images }] =
     useQueries({
       queries: [
-        { queryFn: person.getDetail, queryKey: ["person", id] },
+        {
+          queryFn: person.getDetail,
+          queryKey: ["person", id],
+          useErrorBoundary: true,
+        },
         {
           queryFn: person.getMovieCredits,
           queryKey: ["person", id, "movieCredits"],
