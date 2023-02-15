@@ -12,6 +12,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Reviews from "./router/Reviews";
 import Favorites from "./router/Favorites";
+import ErrorPage from "./ErrorPage";
 
 const queryClient = new QueryClient();
 
@@ -19,9 +20,11 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+    errorElement: <ErrorPage />,
     children: [
       {
         element: <Navigator />,
+        errorElement: <ErrorPage />,
         children: [
           {
             index: true,
@@ -30,10 +33,12 @@ const router = createBrowserRouter([
           {
             path: "movie/:id",
             element: <MovieDetail />,
+            errorElement: <ErrorPage />,
           },
           {
             path: "person/:id",
             element: <PersonDetail />,
+            errorElement: <ErrorPage />,
           },
           {
             path: "explore",

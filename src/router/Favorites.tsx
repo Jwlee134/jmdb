@@ -4,6 +4,7 @@ import HeaderContainer from "../components/containers/HeaderContainer";
 import HorizontalPosterContainer from "../components/containers/HorizontalPosterContainer";
 import Header from "../components/Header";
 import HorizontalPoster from "../components/HorizontalPoster";
+import ScrollToTopBtn from "../components/ScrollToTopBtn";
 import { IMovie } from "../libs/api/types";
 import useBoundStore from "../store";
 
@@ -19,7 +20,7 @@ export default function Favorites() {
         <AnimatePresence mode="popLayout">
           {favs.length ? (
             favs.map((fav) => (
-              <motion.div key={fav.id} layout>
+              <motion.div key={fav.id} layout exit={{ scale: 0.8, opacity: 0 }}>
                 <HorizontalPoster
                   key={fav.id}
                   data={fav as IMovie}
@@ -39,6 +40,7 @@ export default function Favorites() {
           )}
         </AnimatePresence>
       </HorizontalPosterContainer>
+      <ScrollToTopBtn />
     </HeaderContainer>
   );
 }

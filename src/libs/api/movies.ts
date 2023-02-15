@@ -1,13 +1,15 @@
 import { QueryFunctionContext } from "@tanstack/react-query";
 import instance from ".";
+import withApiError from "../utils/withApiError";
 import { ICredits, IMovieDetail, IMovies, IReviews, IVideos } from "./types";
 
 /**
  * queryKey: ["movies", id]
  */
 export const movie = {
-  getDetail: async ({ queryKey }: QueryFunctionContext) =>
-    instance.get<IMovieDetail>(`/movie/${queryKey[1]}`).then((res) => res.data),
+  getDetail: withApiError(async ({ queryKey }: QueryFunctionContext) =>
+    instance.get<IMovieDetail>(`/movie/${queryKey[1]}`).then((res) => res.data)
+  ),
   getCredits: async ({ queryKey }: QueryFunctionContext) =>
     instance
       .get<ICredits>(`/movie/${queryKey[1]}/credits`)
@@ -30,10 +32,11 @@ export const movie = {
  * queryKey: ["movies", "nowPlaying" | "upcoming" | "topRated"]
  */
 export const movies = {
-  getNowPlaying: async ({ pageParam = 1 }: QueryFunctionContext) =>
+  getNowPlaying: withApiError(async ({ pageParam = 1 }: QueryFunctionContext) =>
     instance
       .get<IMovies>(`/movie/now_playing?page=${pageParam}`)
-      .then((res) => res.data),
+      .then((res) => res.data)
+  ),
   getUpcoming: async ({ pageParam = 1 }: QueryFunctionContext) =>
     instance
       .get<IMovies>(`/movie/upcoming?page=${pageParam}`)

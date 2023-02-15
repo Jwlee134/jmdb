@@ -18,7 +18,11 @@ export default function PersonDetail() {
   const [{ data: details }, { data: movieCredits }, { data: images }] =
     useQueries({
       queries: [
-        { queryFn: person.getDetail, queryKey: ["person", id] },
+        {
+          queryFn: person.getDetail,
+          queryKey: ["person", id],
+          useErrorBoundary: true,
+        },
         {
           queryFn: person.getMovieCredits,
           queryKey: ["person", id, "movieCredits"],
@@ -38,7 +42,7 @@ export default function PersonDetail() {
       <Helmet>
         <title>{details ? `JMDB | ${details.name}` : "Loading"}</title>
       </Helmet>
-      <div className="relative pt-[100%] overflow-hidden">
+      <div className="relative pt-[100%] sm:pt-[80%] overflow-hidden">
         {isReady ? (
           <img
             src={makeImgPath(details.profile_path)}
