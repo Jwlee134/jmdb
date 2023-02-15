@@ -28,7 +28,15 @@ export default function Reviews() {
       <Helmet>
         <title>JMDB | Reviews</title>
       </Helmet>
-      <Header showBackBtn title="Reviews" subTitle={`${state.total} Reviews`} />
+      <Header
+        showBackBtn
+        title="Reviews"
+        subTitle={`${
+          state?.total ||
+          data?.pages?.map((page) => page.results).flat().length ||
+          0
+        } Reviews`}
+      />
       <div className="pt-20 pb-6 max-md:space-y-6 md:grid md:grid-cols-2 md:gap-3">
         {(
           data?.pages?.map((page) => page.results).flat() || placeholders(10)

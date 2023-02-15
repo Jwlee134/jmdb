@@ -29,6 +29,7 @@ export default function MovieDetail() {
       {
         queryFn: movie.getDetail,
         queryKey: ["movies", id],
+        useErrorBoundary: true,
       },
       {
         queryFn: movie.getCredits,
@@ -47,6 +48,7 @@ export default function MovieDetail() {
   const { data: reviews } = useInfiniteQuery({
     queryFn: movie.getReviews,
     queryKey: ["movies", id, "reviews"],
+    useErrorBoundary: true,
   });
   const loaded = useImageLoad(
     details
