@@ -38,7 +38,7 @@ export default function PersonDetail() {
       <Helmet>
         <title>{details ? `JMDB | ${details.name}` : "Loading"}</title>
       </Helmet>
-      <div className="relative pt-[100%] overflow-hidden">
+      <div className="relative pt-[100%] sm:pt-[80%] overflow-hidden">
         {isReady ? (
           <img
             src={makeImgPath(details.profile_path)}

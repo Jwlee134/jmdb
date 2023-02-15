@@ -111,6 +111,7 @@ export default function Explore() {
               renderItem={(data) => (
                 <Profile key={data.item.id} {...data} showCharacter={false} />
               )}
+              cacheKey="trendingPeople"
             />
           </Section>
         </>
