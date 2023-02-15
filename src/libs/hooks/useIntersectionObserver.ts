@@ -10,9 +10,7 @@ export default function useIntersectionObserver(
     if (!ref.current) return;
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          taskFn();
-        }
+        if (entry.isIntersecting) taskFn();
       },
       { ...option, rootMargin: "300px" }
     );

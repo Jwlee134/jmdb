@@ -1,4 +1,3 @@
-import { memo } from "react";
 import { Link, useParams } from "react-router-dom";
 import { IMovie } from "../libs/api/types";
 import { GENRES } from "../libs/constants";
@@ -9,7 +8,7 @@ import { RenderItemProps } from "./containers/ScrollContainer";
 import RatioSkeleton from "./RatioSkeleton";
 import Skeleton from "./Skeleton";
 
-export default memo(function Poster({
+export default function Poster({
   item,
   index,
   cacheKey,
@@ -61,4 +60,4 @@ export default memo(function Poster({
       </div>
     </Link>
   );
-});
+}

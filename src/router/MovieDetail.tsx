@@ -14,13 +14,17 @@ import Review from "../components/Review";
 import { useEffect } from "react";
 import HeaderContainer from "../components/containers/HeaderContainer";
 import FavIcon from "../components/FavIcon";
-import useIntersectionObserver from "../libs/hooks/useIntersectionObserver";
 import { Helmet } from "react-helmet";
 import RatioSkeleton from "../components/RatioSkeleton";
 
 export default function MovieDetail() {
   const { id } = useParams();
-  const [{ data: details }, { data: credits }, { data: videos }] = useQueries({
+  const [
+    { data: details },
+    { data: credits },
+    { data: similars },
+    { data: videos },
+  ] = useQueries({
     queries: [
       {
         queryFn: movie.getDetail,
@@ -31,18 +35,15 @@ export default function MovieDetail() {
         queryKey: ["movies", id, "creidts"],
       },
       {
+        queryFn: movie.getSimilar,
+        queryKey: ["movies", id, "similars"],
+      },
+      {
         queryFn: movie.getVideos,
         queryKey: ["movies", id, "videos"],
       },
     ],
   });
-  const { data: similars, fetchNextPage } = useInfiniteQuery({
-    queryFn: movie.getSimilar,
-    queryKey: ["movies", id, "similars"],
-    getNextPageParam: (lastPage) =>
-      lastPage.page === lastPage.total_pages ? undefined : lastPage.page + 1,
-  });
-  const ref = useIntersectionObserver(fetchNextPage);
   const { data: reviews } = useInfiniteQuery({
     queryFn: movie.getReviews,
     queryKey: ["movies", id, "reviews"],
@@ -198,11 +199,10 @@ export default function MovieDetail() {
       </Section>
       <Section headerTitle="Similar Movies">
         <ScrollView
-          data={similars?.pages.map((page) => page.results).flat()}
+          data={similars?.results}
           renderItem={(data) => <Poster key={data.item.id} {...data} />}
           cacheKey="similarMovies"
           emptyText="No similar movies provided."
-          infiniteRef={<div ref={ref} />}
         />
       </Section>
     </HeaderContainer>

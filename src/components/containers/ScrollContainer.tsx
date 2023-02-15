@@ -1,5 +1,5 @@
 import useEmblaCarousel from "embla-carousel-react";
-import { ReactNode, useCallback, useEffect } from "react";
+import { ReactNode } from "react";
 import { useParams } from "react-router-dom";
 import { Placeholder, placeholders } from "../../libs/utils";
 import useBoundStore from "../../store";
@@ -16,7 +16,6 @@ interface IProps<T> {
   renderItem: (data: RenderItemProps<T>) => ReactNode;
   cacheKey?: CacheKey;
   emptyText?: string;
-  infiniteRef?: ReactNode;
 }
 
 export default function ScrollView<T>({
@@ -24,37 +23,16 @@ export default function ScrollView<T>({
   renderItem,
   cacheKey,
   emptyText,
-  infiniteRef,
 }: IProps<T>) {
   const { id } = useParams();
   const getCache = useBoundStore((state) => state.getCache);
-  const [emblaRef, emblaApi] = useEmblaCarousel({
+  const [emblaRef] = useEmblaCarousel({
     dragFree: true,
     containScroll: "trimSnaps",
     ...(cacheKey && {
       startIndex: getCache(cacheKey, id ? parseInt(id) : undefined),
     }),
   });
-
-  const reloadEmbla = useCallback(() => {
-    if (!emblaApi) return;
-    const oldEngine = emblaApi.internalEngine();
-    emblaApi.reInit();
-    const newEngine = emblaApi.internalEngine();
-    Object.assign(newEngine.scrollBody, oldEngine.scrollBody);
-    Object.assign(newEngine.location, oldEngine.location);
-    Object.assign(newEngine.target, oldEngine.target);
-    const { index } = newEngine.scrollTarget.byDistance(0, false);
-    newEngine.index.set(index);
-    newEngine.animation.start();
-  }, [emblaApi]);
-
-  useEffect(() => {
-    if (!infiniteRef) return;
-    if (emblaApi && data && emblaApi.slideNodes().length !== data.length) {
-      reloadEmbla();
-    }
-  }, [emblaApi, reloadEmbla, data, infiniteRef]);
 
   return (
     <div className="overflow-hidden px-6" ref={data ? emblaRef : null}>
@@ -65,7 +43,6 @@ export default function ScrollView<T>({
           {(data || placeholders()).map((item, index) =>
             renderItem({ item, index, cacheKey })
           )}
-          {infiniteRef || null}
         </div>
       )}
     </div>
