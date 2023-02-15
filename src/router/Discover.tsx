@@ -14,6 +14,7 @@ import HeaderContainer from "../components/containers/HeaderContainer";
 import HeaderBtn from "../components/HeaderBtn";
 import HorizontalPosterContainer from "../components/containers/HorizontalPosterContainer";
 import { Helmet } from "react-helmet";
+import ScrollToTopBtn from "../components/ScrollToTopBtn";
 
 export default function Discover() {
   const { search } = useLocation();
@@ -62,6 +63,7 @@ export default function Discover() {
       <Portal>
         <FilterModal />
       </Portal>
+      <ScrollToTopBtn className="bottom-2" />
     </HeaderContainer>
   );
 }

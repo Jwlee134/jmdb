@@ -1,32 +1,44 @@
-import { IoHeart, IoHeartOutline } from "react-icons/io5";
-import { animate, motion, useMotionValue } from "framer-motion";
-import { makeImgPath } from "../libs/utils";
+import { IoHeart } from "react-icons/io5";
+import {
+  animate,
+  HTMLMotionProps,
+  motion,
+  useMotionValue,
+} from "framer-motion";
+import { cls, makeImgPath } from "../libs/utils";
 import useBoundStore from "../store";
 import { shallow } from "zustand/shallow";
 import HeaderBtn from "./HeaderBtn";
-import { IMovieDetail } from "../libs/api/types";
+import { IMovie, IMovieDetail } from "../libs/api/types";
 
-interface IProps {
-  id: number;
-  details: IMovieDetail;
+interface IProps extends HTMLMotionProps<"div"> {
+  details: IMovieDetail | IMovie;
+  transparent?: boolean;
 }
 
 function useIsFav(id: number) {
   return useBoundStore((state) => state.favs.some((fav) => fav.id === id));
 }
 
-export default function FavIcon({ id, details }: IProps) {
+export default function FavIcon({
+  details,
+  transparent = true,
+  className,
+}: IProps) {
   const { toggleFav } = useBoundStore(
     (state) => ({ toggleFav: state.toggleFav, isFav: state.isFav }),
     shallow
   );
-  const isFav = useIsFav(id);
+  const isFav = useIsFav(details.id);
   const scale = useMotionValue(1);
 
   const onHeartClick = () => {
-    toggleFav(id, {
+    toggleFav(details.id, {
       title: details.title,
-      genre_ids: details.genres.map((genre) => genre.id),
+      genre_ids:
+        "genres" in details
+          ? details.genres.map((genre) => genre.id)
+          : details.genre_ids,
       poster_path: makeImgPath(details.poster_path),
       release_date: details.release_date,
       vote_average: details.vote_average,
@@ -35,9 +47,21 @@ export default function FavIcon({ id, details }: IProps) {
   };
 
   return (
-    <HeaderBtn transparent onClick={onHeartClick}>
-      <motion.div style={{ scale }}>
-        {isFav ? <IoHeart /> : <IoHeartOutline />}
+    <HeaderBtn
+      transparent={transparent}
+      onClick={(e) => {
+        e.preventDefault();
+        onHeartClick();
+      }}
+    >
+      <motion.div
+        className={cls(
+          isFav ? "text-gray-200" : "text-gray-600",
+          className ? className : ""
+        )}
+        style={{ scale }}
+      >
+        <IoHeart />
       </motion.div>
     </HeaderBtn>
   );

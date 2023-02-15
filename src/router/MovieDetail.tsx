@@ -68,11 +68,7 @@ export default function MovieDetail() {
       Header={
         <Header
           transparent
-          rightIcons={
-            id && isReady
-              ? [<FavIcon id={parseInt(id)} details={details} />]
-              : null
-          }
+          rightIcons={isReady ? [<FavIcon details={details} />] : null}
         />
       }
       overwrap
