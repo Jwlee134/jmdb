@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import Skeleton from "./Skeleton";
 import { RiDeleteBin2Fill } from "react-icons/ri";
 import useBoundStore from "../store";
+import RatioSkeleton from "./RatioSkeleton";
 
 interface IProps {
   data: IMovie | Placeholder;
@@ -40,10 +41,7 @@ export default memo(function HorizontalPoster({
               alt="Poster"
             />
           ) : (
-            <Skeleton
-              containerClassName="overflow-hidden absolute top-0 left-0 right-0 bottom-0 w-full h-full"
-              className="absolute h-full"
-            />
+            <RatioSkeleton />
           )}
         </div>
       </div>

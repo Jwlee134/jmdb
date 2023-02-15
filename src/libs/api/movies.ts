@@ -16,9 +16,9 @@ export const movie = {
     instance
       .get<IReviews>(`/movie/${queryKey[1]}/reviews?page=${pageParam}`)
       .then((res) => res.data),
-  getSimilar: async ({ queryKey, pageParam = 1 }: QueryFunctionContext) =>
+  getSimilar: async ({ queryKey }: QueryFunctionContext) =>
     instance
-      .get<IMovies>(`/movie/${queryKey[1]}/similar?page=${pageParam}`)
+      .get<IMovies>(`/movie/${queryKey[1]}/similar`)
       .then((res) => res.data),
   getVideos: async ({ queryKey }: QueryFunctionContext) =>
     instance

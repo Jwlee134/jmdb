@@ -11,6 +11,7 @@ import { person } from "../libs/api/people";
 import useImageLoad from "../libs/hooks/useImageLoad";
 import { makeImgPath } from "../libs/utils";
 import HeaderContainer from "../components/containers/HeaderContainer";
+import { Helmet } from "react-helmet";
 
 export default function PersonDetail() {
   const { id } = useParams();
@@ -34,6 +35,9 @@ export default function PersonDetail() {
 
   return (
     <HeaderContainer Header={<Header transparent />} overwrap>
+      <Helmet>
+        <title>{details ? `JMDB | ${details.name}` : "Loading"}</title>
+      </Helmet>
       <div className="relative pt-[100%] overflow-hidden">
         {isReady ? (
           <img
