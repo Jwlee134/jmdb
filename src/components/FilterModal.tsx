@@ -131,7 +131,7 @@ function Body() {
           <div className="flex justify-center items-center space-x-3">
             <span className="text-gray-400">gte: </span>
             <input
-              type="text"
+              type="number"
               {...register("with_runtime.gte", {
                 maxLength: 3,
                 validate: { noString: (v) => (v ? !isNaN(parseInt(v)) : true) },

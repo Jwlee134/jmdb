@@ -98,6 +98,7 @@ export default function Explore() {
                   className="text-sm bg-neutral-800 rounded-lg p-2"
                   key={genre.id}
                   to={`/discover?with_genres=${genre.id}`}
+                  onClick={() => window.scrollTo(0, 0)}
                 >
                   {genre.name}
                 </Link>
