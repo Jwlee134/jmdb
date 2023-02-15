@@ -5,6 +5,7 @@ import {
   HTMLMotionProps,
 } from "framer-motion";
 import { ReactNode } from "react";
+import { cls } from "../libs/utils";
 
 interface IProps extends HTMLMotionProps<"button"> {
   children: ReactNode;
@@ -14,6 +15,7 @@ interface IProps extends HTMLMotionProps<"button"> {
 export default function HeaderBtn({
   children,
   transparent = false,
+  className,
   ...rest
 }: IProps) {
   const { scrollY } = useScroll();
@@ -26,7 +28,10 @@ export default function HeaderBtn({
   return (
     <motion.button
       {...rest}
-      className="font-bold text-xl w-10 h-10 bg-gray-800 flex justify-center items-center rounded-xl drop-shadow-md"
+      className={cls(
+        "font-bold text-xl w-10 h-10 bg-gray-800 flex justify-center items-center rounded-xl drop-shadow-md",
+        className ? className : ""
+      )}
       style={{ ...(transparent && { backgroundColor }) }}
     >
       {children}

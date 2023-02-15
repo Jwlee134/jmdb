@@ -4,6 +4,7 @@ import HeaderContainer from "../components/containers/HeaderContainer";
 import HorizontalPosterContainer from "../components/containers/HorizontalPosterContainer";
 import Header from "../components/Header";
 import HorizontalPoster from "../components/HorizontalPoster";
+import ScrollToTopBtn from "../components/ScrollToTopBtn";
 import { IMovie } from "../libs/api/types";
 import useBoundStore from "../store";
 
@@ -39,6 +40,7 @@ export default function Favorites() {
           )}
         </AnimatePresence>
       </HorizontalPosterContainer>
+      <ScrollToTopBtn />
     </HeaderContainer>
   );
 }
