@@ -14,6 +14,7 @@ import { IMovie, IMovieDetail } from "../libs/api/types";
 interface IProps extends HTMLMotionProps<"div"> {
   details: IMovieDetail | IMovie;
   transparent?: boolean;
+  containerClassName?: string;
 }
 
 function useIsFav(id: number) {
@@ -22,8 +23,9 @@ function useIsFav(id: number) {
 
 export default function FavIcon({
   details,
-  transparent = true,
+  transparent = false,
   className,
+  containerClassName,
 }: IProps) {
   const { toggleFav } = useBoundStore(
     (state) => ({ toggleFav: state.toggleFav, isFav: state.isFav }),
@@ -53,10 +55,13 @@ export default function FavIcon({
         e.preventDefault();
         onHeartClick();
       }}
+      className={containerClassName}
     >
       <motion.div
         className={cls(
-          isFav ? "text-gray-200" : "text-gray-600",
+          isFav
+            ? "text-red-500 dark:text-gray-200"
+            : "text-gray-300 dark:text-gray-600",
           className ? className : ""
         )}
         style={{ scale }}

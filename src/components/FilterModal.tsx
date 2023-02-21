@@ -115,7 +115,7 @@ function Body() {
         <label htmlFor="sortBy">Sort By</label>
         <select
           id="sortBy"
-          className="bg-black outline-none w-full text-gray-400"
+          className="bg-gray-50 p-2 rounded dark:bg-black outline-none w-full text-gray-500 dark:text-gray-400"
           {...register("sort_by")}
         >
           {SORT_BY.map((option, i) => (
@@ -129,7 +129,7 @@ function Body() {
         <div className="space-y-1">
           <label>Runtime</label>
           <div className="flex justify-center items-center space-x-3">
-            <span className="text-gray-400">gte: </span>
+            <span className="text-gray-500 dark:text-gray-400">gte: </span>
             <input
               type="number"
               {...register("with_runtime.gte", {
@@ -137,11 +137,11 @@ function Body() {
                 validate: { noString: (v) => (v ? !isNaN(parseInt(v)) : true) },
               })}
               className={cls(
-                "bg-black w-16 border border-gray-600 rounded-full px-3 py-1 text-gray-400 outline-none",
+                "bg-white dark:bg-black  w-16 border border-gray-300 dark:border-gray-600 rounded-full px-3 py-1 text-gray-500 dark:text-gray-400 outline-none",
                 errors.with_runtime?.gte ? "border-red-500" : ""
               )}
             />
-            <span className="text-gray-400">lte: </span>
+            <span className="text-gray-500 dark:text-gray-400">lte: </span>
             <input
               type="number"
               {...register("with_runtime.lte", {
@@ -149,7 +149,7 @@ function Body() {
                 validate: { noString: (v) => (v ? !isNaN(parseInt(v)) : true) },
               })}
               className={cls(
-                "bg-black w-16 border border-gray-600 rounded-full px-3 py-1 text-gray-400 outline-none",
+                "bg-white dark:bg-black  w-16 border border-gray-300 dark:border-gray-600 rounded-full px-3 py-1 text-gray-500 dark:text-gray-400 outline-none",
                 errors.with_runtime?.lte ? "border-red-500" : ""
               )}
             />
@@ -158,7 +158,7 @@ function Body() {
         <div className="space-y-1">
           <label>Rating</label>
           <div className="flex justify-center items-center space-x-3">
-            <span className="text-gray-400">gte: </span>
+            <span className="text-gray-500 dark:text-gray-400">gte: </span>
             <input
               type="number"
               {...register("vote_average.gte", {
@@ -169,11 +169,11 @@ function Body() {
                 },
               })}
               className={cls(
-                "bg-black w-16 border border-gray-600 rounded-full px-3 py-1 text-gray-400 outline-none",
+                "bg-white dark:bg-black  w-16 border border-gray-300 dark:border-gray-600 rounded-full px-3 py-1 text-gray-500 dark:text-gray-400 outline-none",
                 errors.vote_average?.gte ? "border-red-500" : ""
               )}
             />
-            <span className="text-gray-400">lte: </span>
+            <span className="text-gray-500 dark:text-gray-400">lte: </span>
             <input
               type="number"
               {...register("vote_average.lte", {
@@ -184,7 +184,7 @@ function Body() {
                 },
               })}
               className={cls(
-                "bg-black w-16 border border-gray-600 rounded-full px-3 py-1 text-gray-400 outline-none",
+                "bg-white dark:bg-black  w-16 border border-gray-300 dark:border-gray-600 rounded-full px-3 py-1 text-gray-500 dark:text-gray-400 outline-none",
                 errors.vote_average?.lte ? "border-red-500" : ""
               )}
             />
@@ -199,11 +199,14 @@ function Body() {
               <input
                 {...register("with_genres")}
                 type="checkbox"
-                className="appearance-none grid place-content-center w-4 h-4 border rounded border-gray-400 before:content-[''] before:bg-gray-300 before:w-2 before:h-2 before:rounded-sm before:scale-0 before:transition-transform checked:before:scale-100"
+                className="appearance-none grid place-content-center w-4 h-4 border rounded border-gray-400 before:content-[''] before:bg-gray-500 before:dark:bg-gray-300 before:w-2 before:h-2 before:rounded-sm before:scale-0 before:transition-transform checked:before:scale-100"
                 id={genre.id + ""}
                 value={genre.id}
               />
-              <label htmlFor={genre.id + ""} className="ml-2 text-gray-400">
+              <label
+                htmlFor={genre.id + ""}
+                className="ml-2 text-gray-500 dark:text-gray-400"
+              >
                 {genre.name}
               </label>
             </div>
@@ -241,14 +244,14 @@ function Body() {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.1 }}
-                        className="absolute top-0 left-0 right-0 bottom-0 grid place-items-center text-4xl bg-[#00000080]"
+                        className="absolute top-0 left-0 right-0 bottom-0 grid place-items-center text-4xl bg-[#00000080] text-gray-200 rounded-lg"
                       >
                         <AiOutlineCheckCircle />
                       </motion.div>
                     ) : null}
                   </AnimatePresence>
                 </div>
-                <p className="text-xs text-gray-300 mt-1">
+                <p className="text-xs text-gray-500 dark:text-gray-300 mt-1">
                   {provider.provider_name}
                 </p>
               </label>
@@ -256,7 +259,10 @@ function Body() {
           ))}
         </div>
       </div>
-      <button type="submit" className="bg-gray-800 w-full h-16 rounded-lg">
+      <button
+        type="submit"
+        className="bg-gray-100 dark:bg-gray-800 w-full h-16 rounded-lg text-gray-700 dark:text-gray-200"
+      >
         {totalResults
           ? `See ${totalResults} movie${totalResults === 1 ? "" : "s"}`
           : "No movies to display."}
