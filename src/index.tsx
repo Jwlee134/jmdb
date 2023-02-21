@@ -13,6 +13,9 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Reviews from "./router/Reviews";
 import Favorites from "./router/Favorites";
 import ErrorPage from "./ErrorPage";
+import Settings from "./router/Settings";
+
+import "./i18n";
 
 const queryClient = new QueryClient();
 
@@ -47,6 +50,10 @@ const router = createBrowserRouter([
           {
             path: "favorites",
             element: <Favorites />,
+          },
+          {
+            path: "settings",
+            element: <Settings />,
           },
         ],
       },

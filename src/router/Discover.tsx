@@ -15,18 +15,21 @@ import HeaderBtn from "../components/HeaderBtn";
 import HorizontalPosterContainer from "../components/containers/HorizontalPosterContainer";
 import { Helmet } from "react-helmet";
 import ScrollToTopBtn from "../components/ScrollToTopBtn";
+import { useTranslation } from "react-i18next";
 
 export default function Discover() {
+  const { t } = useTranslation();
   const { search } = useLocation();
-  const { setTotalResults, openModal } = useBoundStore(
+  const { setTotalResults, openModal, lng } = useBoundStore(
     (state) => ({
       setTotalResults: state.setTotalResults,
       openModal: state.openModal,
+      lng: state.lng,
     }),
     shallow
   );
   const { data, fetchNextPage } = useInfiniteQuery({
-    queryKey: ["discover", "movies", search.replace("?", "")],
+    queryKey: ["discover", "movie", lng, search.replace("?", "")],
     queryFn: discover.getDiscoveredMovies,
     getNextPageParam: (lastPage) => lastPage.page + 1,
     onSuccess(data) {
@@ -39,7 +42,7 @@ export default function Discover() {
     <HeaderContainer
       Header={
         <Header
-          title="Discover"
+          title={t("discover")!}
           showBackBtn
           rightIcons={[
             <HeaderBtn onClick={openModal}>
@@ -50,7 +53,7 @@ export default function Discover() {
       }
     >
       <Helmet>
-        <title>JMDB | Discover</title>
+        <title>JMDB | {t("discover")}</title>
       </Helmet>
       <HorizontalPosterContainer>
         {(

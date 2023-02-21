@@ -1,3 +1,5 @@
+import useBoundStore from "../../store";
+
 export function cls(...args: string[]) {
   return args.join(" ");
 }
@@ -39,9 +41,12 @@ export function isPlaceholder<T>(data: T | Placeholder): data is Placeholder {
 }
 
 export function formatRuntime(n: number) {
+  const lng = useBoundStore.getState().lng;
   const h = Math.floor(n / 60);
   const m = n % 60;
-  return `${h ? `${h}h ` : ""}${m.toString().padStart(2, "0")}m`;
+  return `${h ? `${h}${lng === "en-US" ? "h" : "시간"} ` : ""}${m
+    .toString()
+    .padStart(2, "0")}${lng === "en-US" ? "m" : "분"}`;
 }
 
 type RelativeTimeFormat =
@@ -73,8 +78,9 @@ export function formatCreatedAt(createdAt: string) {
   const now = Date.now();
   const created = new Date(createdAt).getTime();
   const diff = Math.floor((now - created) / 1000);
-
-  const formatter = new Intl.RelativeTimeFormat("en", { numeric: "auto" });
+  const formatter = new Intl.RelativeTimeFormat(useBoundStore.getState().lng, {
+    numeric: "auto",
+  });
 
   if (diff < arr[0][1]) return formatter.format(-diff, "second");
   for (let i = 0; i < arr.length - 1; i++)

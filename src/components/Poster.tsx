@@ -1,6 +1,7 @@
+import { useQuery } from "@tanstack/react-query";
 import { Link, useParams } from "react-router-dom";
+import { genres } from "../libs/api/movies";
 import { IMovie } from "../libs/api/types";
-import { GENRES } from "../libs/constants";
 import useImageLoad from "../libs/hooks/useImageLoad";
 import { isPlaceholder, makeImgPath } from "../libs/utils";
 import useBoundStore from "../store";
@@ -13,6 +14,11 @@ export default function Poster({
   index,
   cacheKey,
 }: RenderItemProps<IMovie>) {
+  const lng = useBoundStore((state) => state.lng);
+  const { data } = useQuery({
+    queryKey: ["genres", lng],
+    queryFn: genres.getGenres,
+  });
   const { id } = useParams();
   const setCache = useBoundStore((state) => state.setCache);
   const loaded = useImageLoad(
@@ -47,10 +53,10 @@ export default function Poster({
         {isReady ? (
           <>
             {item.genre_ids.length
-              ? GENRES.find((genre) => genre.id === item.genre_ids[0])?.name
+              ? data?.find((genre) => genre.id === item.genre_ids[0])?.name
               : null}
             <span>
-              {item.genre_ids.length ? " • " : ""}
+              {item.genre_ids.length && item.release_date ? " • " : ""}
               {item.release_date.split("-")[0]}
             </span>
           </>

@@ -1,54 +1,78 @@
 import { QueryFunctionContext } from "@tanstack/react-query";
 import instance from ".";
 import withApiError from "../utils/withApiError";
-import { ICredits, IMovieDetail, IMovies, IReviews, IVideos } from "./types";
+import {
+  Genre,
+  ICredits,
+  IMovieDetail,
+  IMovies,
+  IReviews,
+  IVideos,
+} from "./types";
 
 /**
- * queryKey: ["movies", id]
+ * queryKey: ["movies", id, lng] | ["movies", id, type, lng]
  */
 export const movie = {
   getDetail: withApiError(async ({ queryKey }: QueryFunctionContext) =>
-    instance.get<IMovieDetail>(`/movie/${queryKey[1]}`).then((res) => res.data)
+    instance
+      .get<IMovieDetail>(`/movie/${queryKey[1]}?language=${queryKey[2]}`)
+      .then((res) => res.data)
   ),
   getCredits: async ({ queryKey }: QueryFunctionContext) =>
     instance
-      .get<ICredits>(`/movie/${queryKey[1]}/credits`)
+      .get<ICredits>(
+        `/movie/${queryKey[1]}/${queryKey[2]}?language=${queryKey[3]}`
+      )
       .then((res) => res.data),
   getReviews: async ({ queryKey, pageParam = 1 }: QueryFunctionContext) =>
     instance
-      .get<IReviews>(`/movie/${queryKey[1]}/reviews?page=${pageParam}`)
+      .get<IReviews>(
+        `/movie/${queryKey[1]}/${queryKey[2]}?page=${pageParam}?language=${queryKey[3]}`
+      )
       .then((res) => res.data),
   getSimilar: async ({ queryKey }: QueryFunctionContext) =>
     instance
-      .get<IMovies>(`/movie/${queryKey[1]}/similar`)
+      .get<IMovies>(
+        `/movie/${queryKey[1]}/${queryKey[2]}?language=${queryKey[3]}`
+      )
       .then((res) => res.data),
   getVideos: async ({ queryKey }: QueryFunctionContext) =>
     instance
-      .get<IVideos>(`/movie/${queryKey[1]}/videos`)
+      .get<IVideos>(
+        `/movie/${queryKey[1]}/${queryKey[2]}?language=${queryKey[3]}`
+      )
       .then((res) => res.data),
 };
 
 /**
- * queryKey: ["movies", "nowPlaying" | "upcoming" | "topRated"]
+ * queryKey: ["movies", "now_playing" | "upcoming" | "top_rated", lng]
  */
 export const movies = {
-  getNowPlaying: withApiError(async ({ pageParam = 1 }: QueryFunctionContext) =>
-    instance
-      .get<IMovies>(`/movie/now_playing?page=${pageParam}`)
-      .then((res) => res.data)
+  getNowPlaying: withApiError(
+    async ({ queryKey, pageParam = 1 }: QueryFunctionContext) =>
+      instance
+        .get<IMovies>(
+          `/movie/${queryKey[1]}?page=${pageParam}&language=${queryKey[2]}`
+        )
+        .then((res) => res.data)
   ),
-  getUpcoming: async ({ pageParam = 1 }: QueryFunctionContext) =>
+  getUpcoming: async ({ queryKey, pageParam = 1 }: QueryFunctionContext) =>
     instance
-      .get<IMovies>(`/movie/upcoming?page=${pageParam}`)
+      .get<IMovies>(
+        `/movie/${queryKey[1]}?page=${pageParam}&language=${queryKey[2]}`
+      )
       .then((res) => res.data),
-  getTopRated: async ({ pageParam = 1 }: QueryFunctionContext) =>
+  getTopRated: async ({ queryKey, pageParam = 1 }: QueryFunctionContext) =>
     instance
-      .get<IMovies>(`/movie/top_rated?page=${pageParam}`)
+      .get<IMovies>(
+        `/movie/${queryKey[1]}?page=${pageParam}&language=${queryKey[2]}`
+      )
       .then((res) => res.data),
 };
 
 /**
- * queryKey: ["discover", "movies", queryString]
+ * queryKey: ["discover", "movie", lng, queryString]
  */
 export const discover = {
   getDiscoveredMovies: async ({
@@ -57,8 +81,8 @@ export const discover = {
   }: QueryFunctionContext) =>
     instance
       .get<IMovies>(
-        `/discover/movie?page=${pageParam}${
-          queryKey[2] ? `&${queryKey[2]}` : ""
+        `/discover/${queryKey[1]}?page=${pageParam}&language=${queryKey[2]}${
+          queryKey[3] ? `&${queryKey[3]}` : ""
         }`
       )
       .then((res) => res.data),
@@ -69,11 +93,23 @@ export const discover = {
 };
 
 /**
- * queryKey: ["search", "movies", query]
+ * queryKey: ["search", "movie", lng, query]
  */
 export const search = {
   getMovies: async ({ queryKey, pageParam = 1 }: QueryFunctionContext) =>
     instance
-      .get<IMovies>(`/search/movie?query=${queryKey[2]}&page=${pageParam}`)
+      .get<IMovies>(
+        `/search/${queryKey[1]}?query=${queryKey[3]}&page=${pageParam}&language=${queryKey[2]}`
+      )
       .then((res) => res.data),
+};
+
+/**
+ * queryKey: ["genres", lng]
+ */
+export const genres = {
+  getGenres: async ({ queryKey }: QueryFunctionContext) =>
+    instance
+      .get<{ genres: Genre[] }>(`/genre/movie/list?language=${queryKey[1]}`)
+      .then((res) => res.data.genres),
 };

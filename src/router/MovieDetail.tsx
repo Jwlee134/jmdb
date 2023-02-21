@@ -16,8 +16,11 @@ import HeaderContainer from "../components/containers/HeaderContainer";
 import FavIcon from "../components/FavIcon";
 import { Helmet } from "react-helmet";
 import RatioSkeleton from "../components/RatioSkeleton";
+import { useTranslation } from "react-i18next";
+import useBoundStore from "../store";
 
 export default function MovieDetail() {
+  const lng = useBoundStore((state) => state.lng);
   const { id } = useParams();
   const [
     { data: details },
@@ -28,20 +31,20 @@ export default function MovieDetail() {
     queries: [
       {
         queryFn: movie.getDetail,
-        queryKey: ["movies", id],
+        queryKey: ["movies", id, lng],
         useErrorBoundary: true,
       },
       {
         queryFn: movie.getCredits,
-        queryKey: ["movies", id, "creidts"],
+        queryKey: ["movies", id, "credits", lng],
       },
       {
         queryFn: movie.getSimilar,
-        queryKey: ["movies", id, "similars"],
+        queryKey: ["movies", id, "similar", lng],
       },
       {
         queryFn: movie.getVideos,
-        queryKey: ["movies", id, "videos"],
+        queryKey: ["movies", id, "videos", lng],
       },
     ],
   });
@@ -50,6 +53,7 @@ export default function MovieDetail() {
     queryKey: ["movies", id, "reviews"],
     useErrorBoundary: true,
   });
+
   const loaded = useImageLoad(
     details
       ? [
@@ -58,6 +62,7 @@ export default function MovieDetail() {
         ]
       : ""
   );
+  const { t } = useTranslation();
 
   const isReady = details && loaded;
 
@@ -70,7 +75,9 @@ export default function MovieDetail() {
       Header={
         <Header
           transparent
-          rightIcons={isReady ? [<FavIcon details={details} />] : null}
+          rightIcons={
+            isReady ? [<FavIcon transparent details={details} />] : null
+          }
         />
       }
       overwrap
@@ -104,7 +111,7 @@ export default function MovieDetail() {
             {isReady ? (
               <>
                 <div>
-                  <span className="text-xl">{details.title}</span>{" "}
+                  <span className="text-xl text-gray-200">{details.title}</span>{" "}
                   {details.release_date ? (
                     <span className="text-xs text-gray-400">
                       ({details.release_date.split("-")[0] || "0000"})
@@ -139,16 +146,12 @@ export default function MovieDetail() {
           </div>
         </div>
       </div>
-      <Section headerTitle="Overview">
-        <p className="px-6 text-sm text-gray-400 font-light">
-          {isReady ? (
-            details.overview || "No Overview provided."
-          ) : (
-            <Skeleton count={5} />
-          )}
+      <Section headerTitle={t("overview")}>
+        <p className="px-6 text-sm text-gray-600 dark:text-gray-400 font-light">
+          {isReady ? details.overview || t("noInfo") : <Skeleton count={5} />}
         </p>
       </Section>
-      <Section headerTitle="Casts">
+      <Section headerTitle={t("casts")}>
         <ScrollView
           data={credits?.cast}
           renderItem={(data) => (
@@ -160,17 +163,17 @@ export default function MovieDetail() {
             />
           )}
           cacheKey="casts"
-          emptyText="No Casts provided."
+          emptyText={t("noInfo")!}
         />
       </Section>
-      <Section headerTitle="Videos">
+      <Section headerTitle={t("videos")}>
         <ScrollView
           data={videos?.results}
           renderItem={({ item }) => <Video key={item.id} data={item} />}
-          emptyText="No Videos provided."
+          emptyText={t("noInfo")!}
         />
       </Section>
-      <Section headerTitle="Reviews">
+      <Section headerTitle={t("reviews")}>
         <div className="space-y-6">
           {(reviews?.pages[0].results.slice(0, 2) || placeholders(2)).map(
             (data) => (
@@ -179,28 +182,26 @@ export default function MovieDetail() {
           )}
         </div>
         {reviews && !reviews.pages[0].results.length ? (
-          <p className="px-6 text-sm text-gray-400 font-light">
-            No Reviews exist.
-          </p>
+          <p className="px-6 text-sm text-gray-400 font-light">{t("noInfo")}</p>
         ) : null}
         {reviews && reviews.pages[0].total_results > 2 ? (
           <div className="px-6 mt-6">
             <Link
               to={`/movie/${details?.id}/reviews`}
-              className="block bg-gray-800 w-full rounded-lg py-3 text-center"
+              className="block bg-gray-100 dark:bg-gray-800 w-full rounded-lg py-3 text-center"
               state={{ total: reviews.pages[0].total_results }}
             >
-              See {reviews.pages[0].total_results} reviews
+              {t("totalReviews", { n: reviews.pages[0].total_results })}
             </Link>
           </div>
         ) : null}
       </Section>
-      <Section headerTitle="Similar Movies">
+      <Section headerTitle={t("similarMovies")}>
         <ScrollView
           data={similars?.results}
           renderItem={(data) => <Poster key={data.item.id} {...data} />}
           cacheKey="similarMovies"
-          emptyText="No similar movies provided."
+          emptyText={t("noInfo")!}
         />
       </Section>
     </HeaderContainer>

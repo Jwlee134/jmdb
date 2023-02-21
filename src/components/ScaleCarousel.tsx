@@ -1,10 +1,11 @@
+import { useQuery } from "@tanstack/react-query";
 import useEmblaCarousel from "embla-carousel-react";
 import { useCallback, useEffect, useState } from "react";
 import { flushSync } from "react-dom";
 import { Link } from "react-router-dom";
 import { shallow } from "zustand/shallow";
+import { genres } from "../libs/api/movies";
 import { IMovie } from "../libs/api/types";
-import { GENRES } from "../libs/constants";
 import { isPlaceholder, makeImgPath, Placeholder } from "../libs/utils";
 import useBoundStore from "../store";
 import RatioSkeleton from "./RatioSkeleton";
@@ -19,10 +20,18 @@ interface IProps {
 }
 
 export default function ScaleCarousel({ data }: IProps) {
-  const { getCache, setCache } = useBoundStore(
-    (state) => ({ getCache: state.getCache, setCache: state.setCache }),
+  const { getCache, setCache, lng } = useBoundStore(
+    (state) => ({
+      getCache: state.getCache,
+      setCache: state.setCache,
+      lng: state.lng,
+    }),
     shallow
   );
+  const { data: genreData } = useQuery({
+    queryKey: ["genres", lng],
+    queryFn: genres.getGenres,
+  });
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: true,
     startIndex: getCache("discover"),
@@ -99,7 +108,7 @@ export default function ScaleCarousel({ data }: IProps) {
                     <RatioSkeleton rounded="3xl" />
                   )}
                   {!isPlaceholder(movie) ? (
-                    <div className="absolute bottom-0 w-full p-4 backdrop-blur-md md:py-6">
+                    <div className="absolute text-white  bottom-0 w-full p-4 backdrop-blur-md md:py-6">
                       <div className="flex justify-between items-center">
                         <div className="flex-grow whitespace-nowrap text-ellipsis overflow-hidden pr-2 text-lg">
                           {movie.title}
@@ -114,7 +123,7 @@ export default function ScaleCarousel({ data }: IProps) {
                           .slice(0, 2)
                           .map(
                             (id) =>
-                              GENRES.find((genre) => genre.id === id)?.name
+                              genreData?.find((genre) => genre.id === id)?.name
                           )
                           .map((genre, i) => (
                             <div

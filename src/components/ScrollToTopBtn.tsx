@@ -35,7 +35,7 @@ export default function ScrollToTopBtn({ className, ...rest }: IProps) {
           {...rest}
         >
           <button
-            className="w-10 h-10 text-4xl grid place-items-center pointer-events-auto"
+            className="w-10 h-10 text-4xl grid place-items-center pointer-events-auto text-white drop-shadow-md dark:text-gray-300 dark:drop-shadow-none"
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           >
             <IoArrowUpCircle />
