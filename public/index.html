@@ -4,12 +4,12 @@
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
     <meta
       name="description"
       content="Web site created using create-react-app"
     />
     <title>JMDB</title>
+    <meta name="theme-color" content="#ffffff" />
     <script>
       /* Prevent the screen from flickering when reloading page */
       const state = JSON.parse(localStorage.getItem("jmdb-storage"))?.state;
@@ -18,9 +18,12 @@
           (state.isSystemDefault &&
             window.matchMedia("(prefers-color-scheme: dark)").matches) ||
           state.theme === "dark"
-        )
+        ) {
           document.documentElement.classList.add("dark");
-        else document.documentElement.classList.remove("dark");
+          document
+            .querySelector('meta[name="theme-color"]')
+            .setAttribute("content", "#0a1419");
+        } else document.documentElement.classList.remove("dark");
       }
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />

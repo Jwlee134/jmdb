@@ -25,9 +25,15 @@ export default function App() {
     (isDark: boolean) => {
       if (isDark) {
         document.documentElement.classList.add("dark");
+        document
+          .querySelector('meta[name="theme-color"]')!
+          .setAttribute("content", "#0a1419");
         setTheme("dark");
       } else {
         document.documentElement.classList.remove("dark");
+        document
+          .querySelector('meta[name="theme-color"]')!
+          .setAttribute("content", "#ffffff");
         setTheme("light");
       }
     },
