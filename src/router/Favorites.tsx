@@ -33,7 +33,7 @@ export default function Favorites() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="grid place-items-center absolute top-0 left-0 right-0 bottom-0 text-gray-600 dark:text-gray-400 font-light"
+              className="grid place-items-center absolute top-0 left-0 right-0 min-h-[calc(100vh-80px)] bottom-0 text-gray-600 dark:text-gray-400 font-light"
             >
               Nothing to display! 😣
             </motion.div>

@@ -84,7 +84,7 @@ export default function PersonDetail() {
         </div>
       </div>
       <Section headerTitle="Biography">
-        <p className="px-6 text-sm text-gray-400 font-light">
+        <p className="px-6 text-sm text-gray-600 dark:text-gray-400 font-light">
           {isReady ? (
             details.biography || "No biography provided."
           ) : (

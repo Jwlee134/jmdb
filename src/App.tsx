@@ -60,7 +60,7 @@ export default function App() {
   }, [theme, isSystemDefault, callback, setClassList]);
 
   return (
-    <main className="max-w-screen-lg min-h-screen mx-auto relative">
+    <main className="max-w-screen-lg mx-auto relative">
       <Outlet />
       <div id="modal" className="max-w-[inherit]" />
     </main>

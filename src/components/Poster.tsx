@@ -50,7 +50,7 @@ export default function Poster({
               ? GENRES.find((genre) => genre.id === item.genre_ids[0])?.name
               : null}
             <span>
-              {item.genre_ids.length ? " • " : ""}
+              {item.genre_ids.length && item.release_date ? " • " : ""}
               {item.release_date.split("-")[0]}
             </span>
           </>

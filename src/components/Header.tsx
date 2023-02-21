@@ -29,8 +29,8 @@ export default function Header({
     scrollY,
     [0, 80],
     [
-      theme === "dark" ? "#0a141900" : "#f9fafb00",
-      theme === "dark" ? "#0a1419ff" : "#f9fafbff",
+      theme === "dark" ? "#0a141900" : "#ffffff00",
+      theme === "dark" ? "#0a1419ff" : "#ffffffff",
     ]
   );
   const backBtnColor = useTransform(
