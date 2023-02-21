@@ -70,7 +70,9 @@ export default function MovieDetail() {
       Header={
         <Header
           transparent
-          rightIcons={isReady ? [<FavIcon details={details} />] : null}
+          rightIcons={
+            isReady ? [<FavIcon transparent details={details} />] : null
+          }
         />
       }
       overwrap
@@ -104,7 +106,7 @@ export default function MovieDetail() {
             {isReady ? (
               <>
                 <div>
-                  <span className="text-xl">{details.title}</span>{" "}
+                  <span className="text-xl text-gray-200">{details.title}</span>{" "}
                   {details.release_date ? (
                     <span className="text-xs text-gray-400">
                       ({details.release_date.split("-")[0] || "0000"})
@@ -140,7 +142,7 @@ export default function MovieDetail() {
         </div>
       </div>
       <Section headerTitle="Overview">
-        <p className="px-6 text-sm text-gray-400 font-light">
+        <p className="px-6 text-sm text-gray-600 dark:text-gray-400 font-light">
           {isReady ? (
             details.overview || "No Overview provided."
           ) : (
@@ -187,7 +189,7 @@ export default function MovieDetail() {
           <div className="px-6 mt-6">
             <Link
               to={`/movie/${details?.id}/reviews`}
-              className="block bg-gray-800 w-full rounded-lg py-3 text-center"
+              className="block bg-gray-100 dark:bg-gray-800 w-full rounded-lg py-3 text-center"
               state={{ total: reviews.pages[0].total_results }}
             >
               See {reviews.pages[0].total_results} reviews

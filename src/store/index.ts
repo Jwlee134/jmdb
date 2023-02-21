@@ -5,8 +5,13 @@ import { immer } from "zustand/middleware/immer";
 import createUserAgentSlice, { IUserAgentSlice } from "./userAgentSlice";
 import createCacheSlice, { ICacheSlice } from "./cacheSlice";
 import createFavsSlice, { IFavsSlice } from "./favsSlice";
+import createThemeSlice, { IThemeSlice } from "./themeSlice";
 
-export type Store = IModalSlice & IUserAgentSlice & ICacheSlice & IFavsSlice;
+export type Store = IModalSlice &
+  IUserAgentSlice &
+  ICacheSlice &
+  IFavsSlice &
+  IThemeSlice;
 
 export type Slice<T> = StateCreator<
   Store,
@@ -27,11 +32,16 @@ const useBoundStore = create<Store>()(
         ...createUserAgentSlice(...a),
         ...createCacheSlice(...a),
         ...createFavsSlice(...a),
+        ...createThemeSlice(...a),
       }))
     ),
     {
       name: "jmdb-storage",
-      partialize: (state) => ({ favs: state.favs }),
+      partialize: (state) => ({
+        favs: state.favs,
+        theme: state.theme,
+        isSystemDefault: state.isSystemDefault,
+      }),
     }
   )
 );

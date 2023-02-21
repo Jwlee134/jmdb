@@ -49,7 +49,7 @@ export default function ModalContainer({ title, children }: IProps) {
             animate="animate"
             exit="initial"
             transition={{ duration: 0.2 }}
-            className="w-3/4 h-[60vh] bg-black rounded-xl z-[999] flex flex-col justify-between overflow-hidden"
+            className="w-3/4 h-[60vh] bg-white dark:bg-black rounded-xl z-[999] flex flex-col justify-between overflow-hidden"
           >
             <div className="h-12 flex justify-end shrink-0 relative">
               {title ? (
@@ -58,7 +58,7 @@ export default function ModalContainer({ title, children }: IProps) {
                 </span>
               ) : null}
               <button
-                className="w-12 h-12 grid place-items-center text-xl text-gray-300"
+                className="w-12 h-12 grid place-items-center text-xl text-gray-500 dark:text-gray-300"
                 onClick={closeModal}
               >
                 <IoClose />

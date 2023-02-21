@@ -99,7 +99,7 @@ export default function ScaleCarousel({ data }: IProps) {
                     <RatioSkeleton rounded="3xl" />
                   )}
                   {!isPlaceholder(movie) ? (
-                    <div className="absolute bottom-0 w-full p-4 backdrop-blur-md md:py-6">
+                    <div className="absolute text-white  bottom-0 w-full p-4 backdrop-blur-md md:py-6">
                       <div className="flex justify-between items-center">
                         <div className="flex-grow whitespace-nowrap text-ellipsis overflow-hidden pr-2 text-lg">
                           {movie.title}

@@ -60,14 +60,14 @@ export default function Explore() {
       >
         <label
           htmlFor="search"
-          className="bg-neutral-800 h-10 grid place-items-center w-8 text-gray-400 rounded-l-md"
+          className="bg-neutral-100 dark:bg-neutral-800 h-10 grid place-items-center w-8 text-gray-400 rounded-l-md"
         >
           <FiSearch />
         </label>
         <input
           {...register("query")}
           id="search"
-          className="outline-none bg-neutral-800 text-sm grow h-10 placeholder:text-gray-500 rounded-r-md"
+          className="outline-none bg-neutral-100 dark:bg-neutral-800 text-sm grow h-10 placeholder:text-gray-500 rounded-r-md"
           placeholder="Search by keyword."
         />
         {watch("query") ? (
@@ -95,7 +95,7 @@ export default function Explore() {
                 a.name > b.name ? 1 : a.name < b.name ? -1 : 0
               ).map((genre) => (
                 <Link
-                  className="text-sm bg-neutral-800 rounded-lg p-2"
+                  className="text-sm bg-neutral-100 dark:bg-neutral-800 rounded-lg p-2"
                   key={genre.id}
                   to={`/discover?with_genres=${genre.id}`}
                   onClick={() => window.scrollTo(0, 0)}

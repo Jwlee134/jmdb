@@ -12,6 +12,7 @@ import useImageLoad from "../libs/hooks/useImageLoad";
 import { makeImgPath } from "../libs/utils";
 import HeaderContainer from "../components/containers/HeaderContainer";
 import { Helmet } from "react-helmet";
+import RatioSkeleton from "../components/RatioSkeleton";
 
 export default function PersonDetail() {
   const { id } = useParams();
@@ -60,17 +61,14 @@ export default function PersonDetail() {
                   alt="poster"
                 />
               ) : (
-                <Skeleton
-                  containerClassName="overflow-hidden absolute top-0 left-0 right-0 bottom-0 w-full h-full"
-                  className="absolute h-full"
-                />
+                <RatioSkeleton />
               )}
             </div>
           </div>
           <div className="w-[55%] space-y-1">
             {isReady ? (
               <>
-                <div className="text-xl">{details.name}</div>
+                <div className="text-xl text-white">{details.name}</div>
                 <div className="text-sm text-gray-400">
                   {details.known_for_department}
                 </div>
