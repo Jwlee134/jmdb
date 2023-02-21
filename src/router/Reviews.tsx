@@ -7,6 +7,7 @@ import Review from "../components/Review";
 import { movie } from "../libs/api/movies";
 import useIntersectionObserver from "../libs/hooks/useIntersectionObserver";
 import { placeholders } from "../libs/utils";
+import { useTranslation } from "react-i18next";
 
 export default function Reviews() {
   const { id } = useParams();
@@ -18,6 +19,7 @@ export default function Reviews() {
       lastPage.page === lastPage.total_pages ? undefined : lastPage.page + 1,
   });
   const ref = useIntersectionObserver(fetchNextPage);
+  const { t } = useTranslation();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -30,14 +32,17 @@ export default function Reviews() {
       </Helmet>
       <Header
         showBackBtn
-        title="Reviews"
-        subTitle={`${
-          state?.total ||
-          data?.pages?.map((page) => page.results).flat().length ||
-          0
-        } Reviews`}
+        title={t("reviews") as string}
+        subTitle={
+          t("totalReviews", {
+            n:
+              state?.total ||
+              data?.pages?.map((page) => page.results).flat().length ||
+              0,
+          })!
+        }
       />
-      <div className="pt-20 pb-6 max-md:space-y-6 md:grid md:grid-cols-2 md:gap-3">
+      <div className="pt-24 pb-6 max-md:space-y-6 md:grid md:grid-cols-2 md:gap-3">
         {(
           data?.pages?.map((page) => page.results).flat() || placeholders(10)
         ).map((data) => (

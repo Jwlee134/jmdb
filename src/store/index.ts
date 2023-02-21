@@ -41,6 +41,7 @@ const useBoundStore = create<Store>()(
         favs: state.favs,
         theme: state.theme,
         isSystemDefault: state.isSystemDefault,
+        lng: state.lng,
       }),
     }
   )

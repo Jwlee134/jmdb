@@ -5,7 +5,7 @@ import {
   motion,
   useMotionValue,
 } from "framer-motion";
-import { cls, makeImgPath } from "../libs/utils";
+import { cls } from "../libs/utils";
 import useBoundStore from "../store";
 import { shallow } from "zustand/shallow";
 import HeaderBtn from "./HeaderBtn";
@@ -18,7 +18,7 @@ interface IProps extends HTMLMotionProps<"div"> {
 }
 
 function useIsFav(id: number) {
-  return useBoundStore((state) => state.favs.some((fav) => fav.id === id));
+  return useBoundStore((state) => state.favs.some((favId) => favId === id));
 }
 
 export default function FavIcon({
@@ -35,16 +35,7 @@ export default function FavIcon({
   const scale = useMotionValue(1);
 
   const onHeartClick = () => {
-    toggleFav(details.id, {
-      title: details.title,
-      genre_ids:
-        "genres" in details
-          ? details.genres.map((genre) => genre.id)
-          : details.genre_ids,
-      poster_path: makeImgPath(details.poster_path),
-      release_date: details.release_date,
-      vote_average: details.vote_average,
-    });
+    toggleFav(details.id);
     if (!isFav) animate(scale, [0.8, 1.2, 0.9, 1.1, 1], { duration: 0.5 });
   };
 

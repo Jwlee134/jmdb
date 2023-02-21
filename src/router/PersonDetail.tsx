@@ -13,26 +13,30 @@ import { makeImgPath } from "../libs/utils";
 import HeaderContainer from "../components/containers/HeaderContainer";
 import { Helmet } from "react-helmet";
 import RatioSkeleton from "../components/RatioSkeleton";
+import { useTranslation } from "react-i18next";
+import useBoundStore from "../store";
 
 export default function PersonDetail() {
+  const lng = useBoundStore((state) => state.lng);
   const { id } = useParams();
   const [{ data: details }, { data: movieCredits }, { data: images }] =
     useQueries({
       queries: [
         {
           queryFn: person.getDetail,
-          queryKey: ["person", id],
+          queryKey: ["person", id, lng],
           useErrorBoundary: true,
         },
         {
           queryFn: person.getMovieCredits,
-          queryKey: ["person", id, "movieCredits"],
+          queryKey: ["person", id, lng, "movieCredits"],
         },
         { queryFn: person.getImages, queryKey: ["person", id, "images"] },
       ],
     });
   const loaded = useImageLoad(details ? makeImgPath(details.profile_path) : "");
   const isReady = details && loaded;
+  const { t } = useTranslation();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -83,28 +87,24 @@ export default function PersonDetail() {
           </div>
         </div>
       </div>
-      <Section headerTitle="Biography">
+      <Section headerTitle={t("biography")}>
         <p className="px-6 text-sm text-gray-600 dark:text-gray-400 font-light">
-          {isReady ? (
-            details.biography || "No biography provided."
-          ) : (
-            <Skeleton count={20} />
-          )}
+          {isReady ? details.biography || t("noInfo") : <Skeleton count={20} />}
         </p>
       </Section>
-      <Section headerTitle="Gallery">
+      <Section headerTitle={t("gallery")}>
         <ScrollView
           data={images?.profiles}
           renderItem={(data) => <Image key={data.index} {...data} />}
-          emptyText="No images available."
+          emptyText={t("noInfo")!}
         />
       </Section>
-      <Section headerTitle="Movie Credits">
+      <Section headerTitle={t("movieCredits")}>
         <ScrollView
           data={movieCredits?.cast}
           renderItem={(data) => <Poster key={data.item.id} {...data} />}
           cacheKey="movieCredits"
-          emptyText="No movies contributed."
+          emptyText={t("noInfo")!}
         />
       </Section>
     </HeaderContainer>

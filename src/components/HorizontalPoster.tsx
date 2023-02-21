@@ -1,5 +1,4 @@
-import { IMovie } from "../libs/api/types";
-import { GENRES } from "../libs/constants";
+import { IMovie, IMovieDetail } from "../libs/api/types";
 import useImageLoad from "../libs/hooks/useImageLoad";
 import { isPlaceholder, makeImgPath, Placeholder } from "../libs/utils";
 import { memo } from "react";
@@ -8,14 +7,24 @@ import RatioSkeleton from "./RatioSkeleton";
 import FavIcon from "./FavIcon";
 import Skeleton from "./Skeleton";
 import useBoundStore from "../store";
+import { useQuery } from "@tanstack/react-query";
+import { genres } from "../libs/api/movies";
+import { shallow } from "zustand/shallow";
 
 interface IProps {
-  data: IMovie | Placeholder;
+  data: (IMovie | IMovieDetail) | Placeholder;
   showDelBtn?: boolean;
 }
 
 export default memo(function HorizontalPoster({ data }: IProps) {
-  const theme = useBoundStore((state) => state.theme);
+  const { theme, lng } = useBoundStore(
+    (state) => ({ theme: state.theme, lng: state.lng }),
+    shallow
+  );
+  const { data: genreData } = useQuery({
+    queryKey: ["genres", lng],
+    queryFn: genres.getGenres,
+  });
   const loaded = useImageLoad(
     data && !isPlaceholder(data) ? makeImgPath(data.poster_path) : ""
   );
@@ -73,15 +82,18 @@ export default memo(function HorizontalPoster({ data }: IProps) {
               ) : null}
               {data.release_date ? <span>{data.release_date}</span> : null}
             </div>
-            {data.genre_ids.length ? (
-              <div className="text-xs text-gray-500 sm:max-md:text-sm">
-                {GENRES.filter((genre) =>
-                  Boolean(data.genre_ids.find((id) => genre.id === id))
-                )
-                  .map((genre) => genre.name)
-                  .join(", ")}
-              </div>
-            ) : null}
+            <div className="text-xs text-gray-500 sm:max-md:text-sm">
+              {"genre_ids" in data
+                ? data.genre_ids.length
+                  ? genreData
+                      ?.filter((genre) =>
+                        Boolean(data.genre_ids.find((id) => genre.id === id))
+                      )
+                      .map((genre) => genre.name)
+                      .join(", ")
+                  : null
+                : data.genres.map((genre) => genre.name).join(", ") || null}
+            </div>
           </>
         ) : (
           <Skeleton
