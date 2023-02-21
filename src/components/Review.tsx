@@ -11,12 +11,14 @@ import Skeleton from "./Skeleton";
 import ReactMarkdown from "react-markdown";
 import { useEffect, useRef, useState } from "react";
 import rehypeRaw from "rehype-raw";
+import { useTranslation } from "react-i18next";
 
 interface IProps {
   data: Placeholder | IReview;
 }
 
 export default function Review({ data }: IProps) {
+  const { t } = useTranslation();
   const loaded = useImageLoad(
     !isPlaceholder(data) ? makeImgPath(data.author_details.avatar_path, 45) : ""
   );
@@ -77,7 +79,7 @@ export default function Review({ data }: IProps) {
               onClick={() => setShowMore((prev) => !prev)}
               className="text-xs text-gray-700 dark:text-gray-500 w-fit self-center mt-2"
             >
-              {showMore ? "Read less" : "Read more"}
+              {showMore ? t("readLess") : t("readMore")}
             </button>
           ) : null}
         </div>

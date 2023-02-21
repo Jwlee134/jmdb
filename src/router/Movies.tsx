@@ -9,56 +9,60 @@ import Section from "../components/Section";
 import { discover, movies } from "../libs/api/movies";
 import { placeholders } from "../libs/utils";
 import { Helmet } from "react-helmet";
+import { useTranslation } from "react-i18next";
+import useBoundStore from "../store";
 
 export default function Movies() {
+  const lng = useBoundStore((state) => state.lng);
   const results = useQueries({
     queries: [
       {
-        queryKey: ["discover", "movies"],
+        queryKey: ["discover", "movie", lng],
         queryFn: discover.getDiscoveredMovies,
       },
       {
-        queryKey: ["movies", "nowPlaying"],
+        queryKey: ["movies", "now_playing", lng],
         queryFn: movies.getNowPlaying,
       },
       {
-        queryKey: ["movies", "upcoming"],
+        queryKey: ["movies", "upcoming", lng],
         queryFn: movies.getUpcoming,
       },
       {
-        queryKey: ["movies", "topRated"],
+        queryKey: ["movies", "top_rated", lng],
         queryFn: movies.getTopRated,
       },
     ],
   });
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   return (
     <HeaderContainer Header={<Header title="JMDB" showBackBtn={false} />}>
       <Helmet>
-        <title>JMDB | Home</title>
+        <title>JMDB | {t("home")}</title>
       </Helmet>
       <Section
-        headerTitle="Discover"
+        headerTitle={t("discover")}
         onViewAllClick={() => navigate("/discover")}
       >
         <ScaleCarousel data={results[0].data?.results || placeholders(20)} />
       </Section>
-      <Section headerTitle="Now Playing">
+      <Section headerTitle={t("nowPlaying")}>
         <ScrollView
           data={results[1].data?.results}
           renderItem={(data) => <Poster key={data.item.id} {...data} />}
           cacheKey="nowPlaying"
         />
       </Section>
-      <Section headerTitle="Upcoming">
+      <Section headerTitle={t("upcoming")}>
         <ScrollView
           data={results[2].data?.results}
           renderItem={(data) => <Poster key={data.item.id} {...data} />}
           cacheKey="upcoming"
         />
       </Section>
-      <Section headerTitle="Top Rated">
+      <Section headerTitle={t("topRated")}>
         <ScrollView
           data={results[3].data?.results}
           renderItem={(data) => <Poster key={data.item.id} {...data} />}

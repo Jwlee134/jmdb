@@ -1,4 +1,4 @@
-import { GENRES, PROVIDERS, SORT_BY } from "../libs/constants";
+import { PROVIDERS, SORT_BY } from "../libs/constants";
 import { cls, makeImgPath } from "../libs/utils";
 import useBoundStore from "../store";
 import ModalContainer from "./containers/ModalContainer";
@@ -7,9 +7,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { useEffect, useRef } from "react";
 import { shallow } from "zustand/shallow";
-import { discover } from "../libs/api/movies";
+import { discover, genres } from "../libs/api/movies";
 import { useLocation, useNavigate } from "react-router-dom";
 import { DeepPartial } from "../libs/utils/types";
+import { useTranslation } from "react-i18next";
+import { useQuery } from "@tanstack/react-query";
 
 interface IForm {
   sort_by: string;
@@ -43,6 +45,7 @@ function parseFilterObj(value: DeepPartial<IForm>, countryCode: string) {
 }
 
 function Body() {
+  const { t } = useTranslation();
   const {
     countryName,
     countryCode,
@@ -51,6 +54,7 @@ function Body() {
     totalResults,
     query,
     setQuery,
+    lng,
   } = useBoundStore(
     (state) => ({
       countryName: state.countryName,
@@ -60,9 +64,14 @@ function Body() {
       totalResults: state.totalResults,
       query: state.query,
       setQuery: state.setQuery,
+      lng: state.lng,
     }),
     shallow
   );
+  const { data } = useQuery({
+    queryKey: ["genres", lng],
+    queryFn: genres.getGenres,
+  });
   const { search } = useLocation();
   const navigate = useNavigate();
   const queryObj = new URLSearchParams(search);
@@ -112,7 +121,7 @@ function Body() {
   return (
     <form className="space-y-4 p-4" onSubmit={handleSubmit(onValid)}>
       <div>
-        <label htmlFor="sortBy">Sort By</label>
+        <label htmlFor="sortBy">{t("sortBy")}</label>
         <select
           id="sortBy"
           className="bg-gray-50 p-2 rounded dark:bg-black outline-none w-full text-gray-500 dark:text-gray-400"
@@ -120,16 +129,18 @@ function Body() {
         >
           {SORT_BY.map((option, i) => (
             <option key={i} value={option[0]}>
-              {option[1]}
+              {t(`sorting.${option[1]}`)}
             </option>
           ))}
         </select>
       </div>
       <div className="max-sm:space-y-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:place-items-start">
         <div className="space-y-1">
-          <label>Runtime</label>
+          <label>{t("runtime")}</label>
           <div className="flex justify-center items-center space-x-3">
-            <span className="text-gray-500 dark:text-gray-400">gte: </span>
+            <span className="text-gray-500 dark:text-gray-400">
+              {t("gte")}:{" "}
+            </span>
             <input
               type="number"
               {...register("with_runtime.gte", {
@@ -141,7 +152,9 @@ function Body() {
                 errors.with_runtime?.gte ? "border-red-500" : ""
               )}
             />
-            <span className="text-gray-500 dark:text-gray-400">lte: </span>
+            <span className="text-gray-500 dark:text-gray-400">
+              {t("lte")}:{" "}
+            </span>
             <input
               type="number"
               {...register("with_runtime.lte", {
@@ -156,9 +169,11 @@ function Body() {
           </div>
         </div>
         <div className="space-y-1">
-          <label>Rating</label>
+          <label>{t("rating")}</label>
           <div className="flex justify-center items-center space-x-3">
-            <span className="text-gray-500 dark:text-gray-400">gte: </span>
+            <span className="text-gray-500 dark:text-gray-400">
+              {t("gte")}:{" "}
+            </span>
             <input
               type="number"
               {...register("vote_average.gte", {
@@ -173,7 +188,9 @@ function Body() {
                 errors.vote_average?.gte ? "border-red-500" : ""
               )}
             />
-            <span className="text-gray-500 dark:text-gray-400">lte: </span>
+            <span className="text-gray-500 dark:text-gray-400">
+              {t("lte")}:{" "}
+            </span>
             <input
               type="number"
               {...register("vote_average.lte", {
@@ -192,9 +209,9 @@ function Body() {
         </div>
       </div>
       <div>
-        <label>Genres</label>
+        <label>{t("genres")}</label>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 mt-2 gap-y-4 md:gap-x-2">
-          {GENRES.map((genre) => (
+          {data?.map((genre) => (
             <div key={genre.id} className="flex items-center">
               <input
                 {...register("with_genres")}
@@ -214,9 +231,9 @@ function Body() {
         </div>
       </div>
       <div>
-        <label>Where To Watch</label>
+        <label>{t("whereToWatch")}</label>
         <p className="text-xs text-gray-500">
-          Based on your location: {countryName}
+          {t("basedOnMyLoc", { location: countryName })}
         </p>
         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3 mt-2">
           {PROVIDERS.map((provider) => (
@@ -264,16 +281,21 @@ function Body() {
         className="bg-gray-100 dark:bg-gray-800 w-full h-16 rounded-lg text-gray-700 dark:text-gray-200"
       >
         {totalResults
-          ? `See ${totalResults} movie${totalResults === 1 ? "" : "s"}`
-          : "No movies to display."}
+          ? t("seeFiltered", {
+              n: new Intl.NumberFormat().format(totalResults),
+              s: totalResults === 1 ? "" : "s",
+            })
+          : t("noInfo")}
       </button>
     </form>
   );
 }
 
 export default function FilterModal() {
+  const { t } = useTranslation();
+
   return (
-    <ModalContainer title="Filters">
+    <ModalContainer title={t("filters")!}>
       <Body />
     </ModalContainer>
   );
