@@ -191,7 +191,7 @@ export default function MovieDetail() {
               className="block bg-gray-100 dark:bg-gray-800 w-full rounded-lg py-3 text-center"
               state={{ total: reviews.pages[0].total_results }}
             >
-              {t("totalReviews", { n: reviews.pages[0].total_results })}
+              {t("seeTotalReviews", { n: reviews.pages[0].total_results })}
             </Link>
           </div>
         ) : null}

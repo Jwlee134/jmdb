@@ -73,7 +73,7 @@ export default function Explore() {
         <input
           {...register("query")}
           id="search"
-          className="outline-none bg-neutral-100 dark:bg-neutral-800 text-sm grow h-10 placeholder:text-gray-500 rounded-r-md"
+          className="outline-none bg-neutral-100 dark:bg-neutral-800 text-sm grow h-10 placeholder:text-gray-500 rounded-none rounded-r-md"
           placeholder={t("searchByKeyword") as string}
         />
         {watch("query") ? (
@@ -96,7 +96,7 @@ export default function Explore() {
             />
           </Section>
           <Section headerTitle={t("genres")}>
-            <div className="flex flex-wrap px-6 gap-3">
+            <div className="flex flex-wrap px-6 gap-2">
               {genreData
                 ?.sort((a, b) =>
                   a.name > b.name ? 1 : a.name < b.name ? -1 : 0
