@@ -32,6 +32,7 @@ export default function Profile({
         if (!isReady) e.preventDefault();
         if (cacheKey) setCache(cacheKey, index, id ? parseInt(id) : undefined);
       }}
+      state={{ ...(isReady && { profile_path: item.profile_path }) }}
     >
       <div className="relative pt-[133%] overflow-hidden rounded-xl">
         {isReady ? (

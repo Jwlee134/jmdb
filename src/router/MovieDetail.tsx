@@ -1,5 +1,5 @@
 import { useInfiniteQuery, useQueries } from "@tanstack/react-query";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import Header from "../components/Header";
 import Poster from "../components/Poster";
 import Profile from "../components/Profile";
@@ -20,8 +20,9 @@ import { useTranslation } from "react-i18next";
 import useBoundStore from "../store";
 
 export default function MovieDetail() {
-  const lng = useBoundStore((state) => state.lng);
   const { id } = useParams();
+  const { state } = useLocation();
+  const lng = useBoundStore((state) => state.lng);
   const [
     { data: details },
     { data: credits },
@@ -53,17 +54,17 @@ export default function MovieDetail() {
     queryKey: ["movies", id, "reviews"],
     useErrorBoundary: true,
   });
-
   const loaded = useImageLoad(
     details
       ? [
-          makeImgPath(details.backdrop_path, 780),
+          ...(!state?.backdrop_path
+            ? [makeImgPath(details.backdrop_path, 780)]
+            : []),
           makeImgPath(details.poster_path),
         ]
       : ""
   );
   const { t } = useTranslation();
-
   const isReady = details && loaded;
 
   useEffect(() => {
@@ -86,7 +87,13 @@ export default function MovieDetail() {
         <title>{details ? `JMDB | ${details.title}` : "Loading"}</title>
       </Helmet>
       <div className="relative pt-[100%] sm:pt-[80%] overflow-hidden">
-        {isReady ? (
+        {state?.backdrop_path ? (
+          <img
+            src={makeImgPath(state.backdrop_path, 780)}
+            alt="Backdrop"
+            className="absolute top-0 left-0 right-0 bottom-0 object-cover w-full h-full blur-sm"
+          />
+        ) : isReady ? (
           <img
             src={makeImgPath(details.backdrop_path, 780)}
             alt="Backdrop"
@@ -96,7 +103,13 @@ export default function MovieDetail() {
         <div className="absolute bottom-0 w-full h-full bg-gradient-to-t from-black flex items-end p-6 gap-3">
           <div className="w-[40%]">
             <div className="relative pt-[150%] rounded-2xl overflow-hidden">
-              {isReady ? (
+              {state?.poster_path ? (
+                <img
+                  className="absolute w-full h-full top-0 left-0 right-0 bottom-0 object-cover"
+                  src={makeImgPath(state.poster_path)}
+                  alt="poster"
+                />
+              ) : isReady ? (
                 <img
                   className="absolute w-full h-full top-0 left-0 right-0 bottom-0 object-cover"
                   src={makeImgPath(details.poster_path)}
