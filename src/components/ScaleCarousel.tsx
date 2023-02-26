@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { shallow } from "zustand/shallow";
 import { genres } from "../libs/api/movies";
 import { IMovie } from "../libs/api/types";
+import useImageLoad from "../libs/hooks/useImageLoad";
 import { isPlaceholder, makeImgPath, Placeholder } from "../libs/utils";
 import useBoundStore from "../store";
 import RatioSkeleton from "./RatioSkeleton";
@@ -19,10 +20,17 @@ interface IProps {
   data: IMovie[] | Placeholder[];
 }
 
-export default function ScaleCarousel({ data }: IProps) {
-  const { getCache, setCache, lng } = useBoundStore(
+function Item({
+  movie,
+  i,
+  tweenValues,
+}: {
+  movie: Placeholder | IMovie;
+  i: number;
+  tweenValues: number[];
+}) {
+  const { setCache, lng } = useBoundStore(
     (state) => ({
-      getCache: state.getCache,
       setCache: state.setCache,
       lng: state.lng,
     }),
@@ -32,6 +40,83 @@ export default function ScaleCarousel({ data }: IProps) {
     queryKey: ["genres", lng],
     queryFn: genres.getGenres,
   });
+  useImageLoad(
+    !isPlaceholder(movie)
+      ? [makeImgPath(movie.backdrop_path, 780), makeImgPath(movie.poster_path)]
+      : ""
+  );
+
+  return (
+    <Link
+      key={movie.id}
+      to={`/movie/${movie.id}`}
+      className="flex-[0_0_60%] sm:flex-[0_0_40%] md:flex-[0_0_33%] min-w-0 relative"
+      onClick={() => setCache("discover", i)}
+      state={{
+        ...(!isPlaceholder(movie) && {
+          poster_path: movie.poster_path,
+          backdrop_path: movie.backdrop_path,
+        }),
+      }}
+    >
+      <div
+        className="relative pt-[150%] rounded-3xl overflow-hidden"
+        style={{
+          ...(tweenValues.length && {
+            transform: `scale(${tweenValues[i]})`,
+          }),
+        }}
+      >
+        {/* 새로고침하면 이미지는 바로 렌더링되지만 위 tweenValues를 계산하면서 
+   scale에 적용하는 딜레이 때문에 이미지 scale이 순간적으로 1에서 0.8로 바뀌므로 아래처럼 함 */}
+        {tweenValues.length ? (
+          <>
+            {!isPlaceholder(movie) ? (
+              <img
+                className="absolute w-full h-full top-0 left-0 right-0 bottom-0 object-cover"
+                src={makeImgPath(movie.poster_path)}
+                alt="poster"
+              />
+            ) : (
+              <RatioSkeleton rounded="3xl" />
+            )}
+            {!isPlaceholder(movie) ? (
+              <div className="absolute text-white  bottom-0 w-full p-4 backdrop-blur-md md:py-6">
+                <div className="flex justify-between items-center">
+                  <div className="flex-grow whitespace-nowrap text-ellipsis overflow-hidden pr-2 text-lg">
+                    {movie.title}
+                  </div>
+                  <div className="flex-shrink-0">
+                    <span>{movie.vote_average} </span>
+                    <span className="text-yellow-300">★</span>
+                  </div>
+                </div>
+                <div className="flex space-x-2 pt-2">
+                  {movie.genre_ids
+                    .slice(0, 2)
+                    .map(
+                      (id) => genreData?.find((genre) => genre.id === id)?.name
+                    )
+                    .map((genre, i) => (
+                      <div
+                        key={i}
+                        className="bg-blue-600 py-1 px-2 rounded-full text-sm"
+                      >
+                        {genre}
+                      </div>
+                    ))}
+                </div>
+              </div>
+            ) : null}
+          </>
+        ) : null}
+      </div>
+    </Link>
+  );
+}
+
+export default function ScaleCarousel({ data }: IProps) {
+  const getCache = useBoundStore((state) => state.getCache);
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: true,
     startIndex: getCache("discover"),
@@ -80,66 +165,7 @@ export default function ScaleCarousel({ data }: IProps) {
     <div className="overflow-hidden" ref={emblaRef}>
       <div className="flex">
         {data.map((movie, i) => (
-          <Link
-            key={movie.id}
-            to={`/movie/${movie.id}`}
-            className="flex-[0_0_60%] sm:flex-[0_0_40%] md:flex-[0_0_33%] min-w-0 relative"
-            onClick={() => setCache("discover", i)}
-          >
-            <div
-              className="relative pt-[150%] rounded-3xl overflow-hidden"
-              style={{
-                ...(tweenValues.length && {
-                  transform: `scale(${tweenValues[i]})`,
-                }),
-              }}
-            >
-              {/* 새로고침하면 이미지는 바로 렌더링되지만 위 tweenValues를 계산하면서 
-              scale에 적용하는 딜레이 때문에 이미지 scale이 순간적으로 1에서 0.8로 바뀌므로 아래처럼 함 */}
-              {tweenValues.length ? (
-                <>
-                  {!isPlaceholder(movie) ? (
-                    <img
-                      className="absolute w-full h-full top-0 left-0 right-0 bottom-0 object-cover"
-                      src={makeImgPath(movie.poster_path)}
-                      alt="poster"
-                    />
-                  ) : (
-                    <RatioSkeleton rounded="3xl" />
-                  )}
-                  {!isPlaceholder(movie) ? (
-                    <div className="absolute text-white  bottom-0 w-full p-4 backdrop-blur-md md:py-6">
-                      <div className="flex justify-between items-center">
-                        <div className="flex-grow whitespace-nowrap text-ellipsis overflow-hidden pr-2 text-lg">
-                          {movie.title}
-                        </div>
-                        <div className="flex-shrink-0">
-                          <span>{movie.vote_average} </span>
-                          <span className="text-yellow-300">★</span>
-                        </div>
-                      </div>
-                      <div className="flex space-x-2 pt-2">
-                        {movie.genre_ids
-                          .slice(0, 2)
-                          .map(
-                            (id) =>
-                              genreData?.find((genre) => genre.id === id)?.name
-                          )
-                          .map((genre, i) => (
-                            <div
-                              key={i}
-                              className="bg-blue-600 py-1 px-2 rounded-full text-sm"
-                            >
-                              {genre}
-                            </div>
-                          ))}
-                      </div>
-                    </div>
-                  ) : null}
-                </>
-              ) : null}
-            </div>
-          </Link>
+          <Item key={movie.id} movie={movie} i={i} tweenValues={tweenValues} />
         ))}
       </div>
     </div>

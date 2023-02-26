@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link, useParams } from "react-router-dom";
+import { shallow } from "zustand/shallow";
 import { genres } from "../libs/api/movies";
 import { IMovie } from "../libs/api/types";
 import useImageLoad from "../libs/hooks/useImageLoad";
@@ -14,15 +15,19 @@ export default function Poster({
   index,
   cacheKey,
 }: RenderItemProps<IMovie>) {
-  const lng = useBoundStore((state) => state.lng);
+  const { setCache, lng } = useBoundStore(
+    (state) => ({ setCache: state.setCache, lng: state.lng }),
+    shallow
+  );
   const { data } = useQuery({
     queryKey: ["genres", lng],
     queryFn: genres.getGenres,
   });
   const { id } = useParams();
-  const setCache = useBoundStore((state) => state.setCache);
   const loaded = useImageLoad(
-    !isPlaceholder(item) ? makeImgPath(item.poster_path) : ""
+    !isPlaceholder(item)
+      ? [makeImgPath(item.backdrop_path, 780), makeImgPath(item.poster_path)]
+      : ""
   );
   const isReady = !isPlaceholder(item) && loaded;
 
@@ -33,6 +38,12 @@ export default function Poster({
       onClick={(e) => {
         if (!isReady) e.preventDefault();
         if (cacheKey) setCache(cacheKey, index, id ? parseInt(id) : undefined);
+      }}
+      state={{
+        ...(isReady && {
+          poster_path: item.poster_path,
+          backdrop_path: item.backdrop_path,
+        }),
       }}
     >
       <div className="relative pt-[150%] rounded-2xl overflow-hidden">

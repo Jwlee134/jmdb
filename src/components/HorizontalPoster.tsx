@@ -37,6 +37,12 @@ export default memo(function HorizontalPoster({ data }: IProps) {
       onClick={(e) => {
         if (!isReady) e.preventDefault();
       }}
+      state={{
+        ...(isReady && {
+          poster_path: data.poster_path,
+          backdrop_path: data.backdrop_path,
+        }),
+      }}
     >
       <div className="flex-[0_0_40%]">
         <div className="relative pt-[150%]">

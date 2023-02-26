@@ -1,6 +1,6 @@
 import { useQueries } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import Header from "../components/Header";
 import Image from "../components/Image";
 import Poster from "../components/Poster";
@@ -35,6 +35,7 @@ export default function PersonDetail() {
       ],
     });
   const loaded = useImageLoad(details ? makeImgPath(details.profile_path) : "");
+  const { state } = useLocation();
   const isReady = details && loaded;
   const { t } = useTranslation();
 
@@ -48,7 +49,13 @@ export default function PersonDetail() {
         <title>{details ? `JMDB | ${details.name}` : "Loading"}</title>
       </Helmet>
       <div className="relative pt-[100%] sm:pt-[80%] overflow-hidden">
-        {isReady ? (
+        {state?.profile_path ? (
+          <img
+            src={makeImgPath(state.profile_path)}
+            alt="Backdrop"
+            className="absolute top-0 left-0 right-0 bottom-0 object-cover w-full h-full blur-sm"
+          />
+        ) : isReady ? (
           <img
             src={makeImgPath(details.profile_path)}
             alt="Backdrop"
@@ -58,7 +65,13 @@ export default function PersonDetail() {
         <div className="absolute bottom-0 w-full h-full bg-gradient-to-t from-black flex gap-3 items-end p-6">
           <div className="w-[45%]">
             <div className="relative pt-[150%] rounded-2xl overflow-hidden">
-              {isReady ? (
+              {state?.profile_path ? (
+                <img
+                  className="absolute w-full h-full top-0 left-0 right-0 bottom-0 object-cover"
+                  src={makeImgPath(state.profile_path)}
+                  alt="poster"
+                />
+              ) : isReady ? (
                 <img
                   className="absolute w-full h-full top-0 left-0 right-0 bottom-0 object-cover"
                   src={makeImgPath(details.profile_path)}

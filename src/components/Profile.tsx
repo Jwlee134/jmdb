@@ -20,7 +20,7 @@ export default function Profile({
   const { id } = useParams();
   const setCache = useBoundStore((state) => state.setCache);
   const loaded = useImageLoad(
-    !isPlaceholder(item) ? makeImgPath(item.profile_path, 300) : ""
+    !isPlaceholder(item) ? makeImgPath(item.profile_path) : ""
   );
   const isReady = !isPlaceholder(item) && loaded;
 
@@ -32,11 +32,12 @@ export default function Profile({
         if (!isReady) e.preventDefault();
         if (cacheKey) setCache(cacheKey, index, id ? parseInt(id) : undefined);
       }}
+      state={{ ...(isReady && { profile_path: item.profile_path }) }}
     >
       <div className="relative pt-[133%] overflow-hidden rounded-xl">
         {isReady ? (
           <img
-            src={makeImgPath(item.profile_path, 300)}
+            src={makeImgPath(item.profile_path)}
             alt="Avatar"
             className="absolute w-full h-full top-0 left-0 right-0 bottom-0 object-cover"
           />
