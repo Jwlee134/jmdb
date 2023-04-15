@@ -42,12 +42,6 @@ export default function Movies() {
       <Helmet>
         <title>JMDB | {t("home")}</title>
       </Helmet>
-      <Section
-        headerTitle={t("discover")}
-        onViewAllClick={() => navigate("/discover")}
-      >
-        <ScaleCarousel data={results[0].data?.results || placeholders(20)} />
-      </Section>
       <Section headerTitle={t("nowPlaying")}>
         <ScrollView
           data={results[1].data?.results}
