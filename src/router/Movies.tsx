@@ -1,10 +1,13 @@
 import { useQueries } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import HeaderContainer from "../components/containers/HeaderContainer";
 import Poster from "../components/Poster";
+import ScaleCarousel from "../components/ScaleCarousel";
 import ScrollView from "../components/containers/ScrollContainer";
 import Section from "../components/Section";
 import { discover, movies } from "../libs/api/movies";
+import { placeholders } from "../libs/utils";
 import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
 import useBoundStore from "../store";
@@ -31,6 +34,7 @@ export default function Movies() {
       },
     ],
   });
+  const navigate = useNavigate();
   const { t } = useTranslation();
 
   return (
@@ -38,6 +42,12 @@ export default function Movies() {
       <Helmet>
         <title>JMDB | {t("home")}</title>
       </Helmet>
+      <Section
+        headerTitle={t("discover")}
+        onViewAllClick={() => navigate("/discover")}
+      >
+        <ScaleCarousel data={results[0].data?.results || placeholders(20)} />
+      </Section>
       <Section headerTitle={t("nowPlaying")}>
         <ScrollView
           data={results[1].data?.results}
